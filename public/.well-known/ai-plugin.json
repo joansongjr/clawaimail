@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "ClawAIMail",
+  "name_for_model": "clawaimail",
+  "description_for_human": "Give your AI agent a real email address. Send and receive emails via API.",
+  "description_for_model": "ClawAIMail provides email infrastructure for AI agents. Use it to create email inboxes (e.g. mybot@clawaimail.com), send emails, receive emails, search messages, and manage email threads. Supports webhooks for real-time notifications and custom domains. Authentication via API key (Bearer token with pb_ prefix). Base URL: https://api.clawaimail.com",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "bearer"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://clawaimail.com/openapi.yaml"
+  },
+  "logo_url": "https://clawaimail.com/logo.png",
+  "contact_email": "support@clawaimail.com",
+  "legal_info_url": "https://clawaimail.com/terms"
+}

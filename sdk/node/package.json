@@ -1,0 +1,23 @@
+{
+  "name": "clawaimail",
+  "version": "0.1.0",
+  "description": "ClawAIMail SDK - Email infrastructure for AI agents",
+  "main": "src/index.js",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "keywords": [
+    "email", "ai", "agent", "api", "clawaimail",
+    "mcp", "openclaw", "claude", "cursor",
+    "ai-agent", "email-api", "inbox", "smtp"
+  ],
+  "author": "ClawAIMail <support@clawaimail.com>",
+  "license": "MIT",
+  "homepage": "https://clawaimail.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joansongjr/clawaimail"
+  },
+  "files": ["src/"]
+}

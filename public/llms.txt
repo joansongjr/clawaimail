@@ -1,0 +1,120 @@
+# ClawAIMail
+
+> Email infrastructure for AI agents. Give your AI a real email address with full send/receive capabilities.
+
+## What is ClawAIMail?
+
+ClawAIMail is an API-first email service designed for AI agents. It provides:
+- Instant email inboxes (e.g. mybot@clawaimail.com)
+- Send and receive real emails via API
+- Real-time notifications via WebSocket and Webhooks
+- MCP Server for Claude, Cursor, and other AI tools
+- SDKs for Node.js and Python
+- Custom domain support
+- Thread tracking and email search
+
+## API Base URL
+
+https://api.clawaimail.com
+
+## Authentication
+
+All API requests require a Bearer token:
+```
+Authorization: Bearer pb_your_api_key
+```
+
+Get your API key by registering at https://clawaimail.com and creating one in the dashboard.
+
+## Quick Start
+
+### Create an inbox
+POST /v1/inboxes
+{"username": "mybot"}
+Returns: {"id": 1, "address": "mybot@clawaimail.com"}
+
+### Send an email
+POST /v1/messages/send
+{"inbox_id": 1, "to": "user@example.com", "subject": "Hello", "text": "Hi from my AI agent!"}
+
+### Read messages
+GET /v1/inboxes/1/messages
+
+### Search emails
+GET /v1/inboxes/1/search?q=keyword
+
+## MCP Server (for Claude, Cursor, OpenClaw)
+
+Install: npx clawaimail-mcp
+Or add to your MCP config:
+```json
+{
+  "mcpServers": {
+    "clawaimail": {
+      "command": "npx",
+      "args": ["clawaimail-mcp"],
+      "env": {
+        "CLAWAIMAIL_API_KEY": "pb_your_api_key"
+      }
+    }
+  }
+}
+```
+
+Available MCP tools: list_inboxes, create_inbox, send_email, list_messages, read_email, search_emails, delete_inbox, account_info
+
+## Node.js SDK
+
+```javascript
+import ClawAIMail from 'clawaimail';
+const mail = new ClawAIMail({ apiKey: 'pb_xxx' });
+const inbox = await mail.createInbox({ username: 'mybot' });
+await mail.sendMessage({ inboxId: inbox.id, to: 'user@example.com', subject: 'Hello', text: 'Hi!' });
+const messages = await mail.listMessages(inbox.id);
+```
+
+## Python SDK
+
+```python
+from clawaimail import ClawAIMail
+mail = ClawAIMail(api_key='pb_xxx')
+inbox = mail.create_inbox(username='mybot')
+mail.send_message(inbox_id=inbox['id'], to='user@example.com', subject='Hello', text='Hi!')
+messages = mail.list_messages(inbox['id'])
+```
+
+## Full API Endpoints
+
+- POST /v1/auth/register - Create account
+- POST /v1/auth/login - Login
+- GET /v1/me - Account info and usage
+- POST /v1/inboxes - Create inbox
+- GET /v1/inboxes - List inboxes
+- GET /v1/inboxes/:id - Get inbox details
+- DELETE /v1/inboxes/:id - Delete inbox
+- GET /v1/inboxes/:id/messages - List messages
+- GET /v1/inboxes/:id/messages/:mid - Read message
+- POST /v1/messages/send - Send email
+- GET /v1/inboxes/:id/search?q= - Search emails
+- GET /v1/inboxes/:id/threads - List threads
+- GET /v1/inboxes/:id/threads/:tid - Get thread
+- POST /v1/labels - Create label
+- GET /v1/labels - List labels
+- POST /v1/webhooks - Create webhook
+- GET /v1/webhooks - List webhooks
+- POST /v1/domains - Add custom domain
+- POST /v1/api-keys - Create API key
+
+## Pricing
+
+- Free: 3 inboxes, 100 emails/day
+- Pro ($29/mo): 50 inboxes, 5000 emails/day, custom domains
+- Business ($99/mo): Unlimited inboxes, unlimited emails, priority support
+
+## Links
+
+- Website: https://clawaimail.com
+- API Docs: https://clawaimail.com/docs
+- GitHub: https://github.com/clawaimail
+- npm: https://npmjs.com/package/clawaimail
+- PyPI: https://pypi.org/project/clawaimail

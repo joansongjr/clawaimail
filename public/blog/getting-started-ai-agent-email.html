@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started: Give Your AI Agent an Email in 5 Minutes | ClawAIMail</title>
+    <meta name="description" content="A step-by-step tutorial to give your AI agent its own email address in 5 minutes using ClawAIMail. Includes Node.js and Python code examples plus MCP setup for Claude and Cursor.">
+    <meta name="keywords" content="AI agent email tutorial, how to give AI email, MCP email server, ClawAIMail tutorial, AI email API setup">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://clawaimail.com/blog/getting-started-ai-agent-email.html">
+    <meta property="og:title" content="Getting Started: Give Your AI Agent an Email in 5 Minutes">
+    <meta property="og:description" content="A step-by-step tutorial with Node.js and Python code examples. Learn how to create inboxes, send email, and set up MCP for Claude and Cursor.">
+    <meta property="og:url" content="https://clawaimail.com/blog/getting-started-ai-agent-email.html">
+    <meta property="og:type" content="article">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a0a;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+            line-height: 1.8;
+        }
+        nav {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #1a1a2e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        nav a {
+            color: #7c9fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        nav a:hover { text-decoration: underline; }
+        article {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+        }
+        article h1 {
+            font-size: 2.2rem;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 2.5rem;
+        }
+        article h2 {
+            font-size: 1.6rem;
+            color: #ffffff;
+            margin: 2.5rem 0 1rem;
+        }
+        article h3 {
+            font-size: 1.2rem;
+            color: #c0c0c0;
+            margin: 1.5rem 0 0.75rem;
+        }
+        article p {
+            margin-bottom: 1.2rem;
+            color: #d0d0d0;
+        }
+        article ul, article ol {
+            margin: 0 0 1.2rem 1.5rem;
+            color: #d0d0d0;
+        }
+        article li {
+            margin-bottom: 0.5rem;
+        }
+        article strong {
+            color: #ffffff;
+        }
+        article a {
+            color: #7c9fff;
+            text-decoration: none;
+        }
+        article a:hover { text-decoration: underline; }
+        code {
+            background: #1a1a2e;
+            color: #7c9fff;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #0d0d1a;
+            border: 1px solid #1a1a2e;
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            color: #c8d6f0;
+        }
+        .comment { color: #6a7a8a; }
+        .string { color: #a5d6a7; }
+        .keyword { color: #ce93d8; }
+        .step-number {
+            display: inline-block;
+            background: #7c9fff;
+            color: #0a0a0a;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 2rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+        .cta {
+            background: linear-gradient(135deg, #1a1a3e, #111128);
+            border: 1px solid #7c9fff;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        .cta h2 {
+            margin-top: 0;
+            color: #ffffff;
+        }
+        .cta p {
+            color: #b0b0b0;
+        }
+        .cta a.button {
+            display: inline-block;
+            background: #7c9fff;
+            color: #0a0a0a;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            margin-top: 0.5rem;
+            font-size: 1.05rem;
+        }
+        .cta a.button:hover {
+            background: #6b8fee;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid #1a1a2e;
+            color: #555;
+            font-size: 0.9rem;
+        }
+        footer a { color: #7c9fff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">ClawAIMail</a>
+        <a href="/blog/">Blog</a>
+    </nav>
+
+    <article>
+        <h1>Getting Started: Give Your AI Agent an Email in 5 Minutes</h1>
+        <div class="meta">March 2026 &middot; 6 min read</div>
+
+        <p>This tutorial walks you through giving your AI agent its own email address using <strong>ClawAIMail</strong>. By the end, your agent will be able to create inboxes, send messages, and read incoming email, all through a simple API or MCP integration.</p>
+
+        <p>We will cover three paths: using the REST API directly with <strong>Node.js</strong>, using the REST API with <strong>Python</strong>, and setting up the <strong>MCP server</strong> for Claude or Cursor.</p>
+
+        <h2>Prerequisites</h2>
+
+        <ul>
+            <li>A ClawAIMail account (<a href="https://clawaimail.com">sign up free</a>)</li>
+            <li>Your API key from the ClawAIMail dashboard</li>
+            <li>Node.js 18+ or Python 3.8+ (for the code examples)</li>
+        </ul>
+
+        <h2><span class="step-number">1</span> Get Your API Key</h2>
+
+        <p>After signing up at <a href="https://clawaimail.com">clawaimail.com</a>, navigate to the dashboard and find your API key in the settings section. Copy it and store it securely. You will use this key to authenticate all API requests.</p>
+
+<pre><code><span class="comment"># Store your API key as an environment variable</span>
+export CLAWAIMAIL_API_KEY="your_api_key_here"</code></pre>
+
+        <h2><span class="step-number">2</span> Create an Inbox</h2>
+
+        <p>The first thing your agent needs is an email address. A single API call creates a new inbox with a routable email address.</p>
+
+        <h3>Node.js</h3>
+
+<pre><code><span class="keyword">const</span> response = <span class="keyword">await</span> fetch(<span class="string">'https://api.clawaimail.com/v1/inboxes'</span>, {
+  method: <span class="string">'POST'</span>,
+  headers: {
+    <span class="string">'Authorization'</span>: <span class="string">`Bearer ${process.env.CLAWAIMAIL_API_KEY}`</span>,
+    <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,
+  },
+  body: JSON.stringify({
+    name: <span class="string">'support-agent'</span>,
+    domain: <span class="string">'yourdomain.com'</span>, <span class="comment">// optional: use a custom domain</span>
+  }),
+});
+
+<span class="keyword">const</span> inbox = <span class="keyword">await</span> response.json();
+console.log(<span class="string">`Inbox created: ${inbox.email_address}`</span>);
+<span class="comment">// Output: Inbox created: support-agent@yourdomain.com</span></code></pre>
+
+        <h3>Python</h3>
+
+<pre><code><span class="keyword">import</span> os
+<span class="keyword">import</span> requests
+
+api_key = os.environ[<span class="string">"CLAWAIMAIL_API_KEY"</span>]
+
+response = requests.post(
+    <span class="string">"https://api.clawaimail.com/v1/inboxes"</span>,
+    headers={
+        <span class="string">"Authorization"</span>: <span class="string">f"Bearer {api_key}"</span>,
+        <span class="string">"Content-Type"</span>: <span class="string">"application/json"</span>,
+    },
+    json={
+        <span class="string">"name"</span>: <span class="string">"support-agent"</span>,
+        <span class="string">"domain"</span>: <span class="string">"yourdomain.com"</span>,  <span class="comment"># optional</span>
+    },
+)
+
+inbox = response.json()
+print(<span class="string">f"Inbox created: {inbox['email_address']}"</span>)
+<span class="comment"># Output: Inbox created: support-agent@yourdomain.com</span></code></pre>
+
+        <h2><span class="step-number">3</span> Send an Email</h2>
+
+        <p>Once your agent has an inbox, it can send emails to anyone.</p>
+
+        <h3>Node.js</h3>
+
+<pre><code><span class="keyword">const</span> sendResponse = <span class="keyword">await</span> fetch(
+  <span class="string">`https://api.clawaimail.com/v1/inboxes/${inbox.id}/messages`</span>,
+  {
+    method: <span class="string">'POST'</span>,
+    headers: {
+      <span class="string">'Authorization'</span>: <span class="string">`Bearer ${process.env.CLAWAIMAIL_API_KEY}`</span>,
+      <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,
+    },
+    body: JSON.stringify({
+      to: <span class="string">'customer@example.com'</span>,
+      subject: <span class="string">'Your support request #1234'</span>,
+      body: <span class="string">'Hi! I have reviewed your request and here is what I found...'</span>,
+    }),
+  }
+);
+
+<span class="keyword">const</span> message = <span class="keyword">await</span> sendResponse.json();
+console.log(<span class="string">`Message sent: ${message.id}`</span>);</code></pre>
+
+        <h3>Python</h3>
+
+<pre><code>send_response = requests.post(
+    <span class="string">f"https://api.clawaimail.com/v1/inboxes/{inbox['id']}/messages"</span>,
+    headers={
+        <span class="string">"Authorization"</span>: <span class="string">f"Bearer {api_key}"</span>,
+        <span class="string">"Content-Type"</span>: <span class="string">"application/json"</span>,
+    },
+    json={
+        <span class="string">"to"</span>: <span class="string">"customer@example.com"</span>,
+        <span class="string">"subject"</span>: <span class="string">"Your support request #1234"</span>,
+        <span class="string">"body"</span>: <span class="string">"Hi! I have reviewed your request and here is what I found..."</span>,
+    },
+)
+
+message = send_response.json()
+print(<span class="string">f"Message sent: {message['id']}"</span>)</code></pre>
+
+        <h2><span class="step-number">4</span> Read Incoming Email</h2>
+
+        <p>Your agent can poll for new messages or use webhooks. Here is the polling approach.</p>
+
+        <h3>Node.js</h3>
+
+<pre><code><span class="keyword">const</span> messagesResponse = <span class="keyword">await</span> fetch(
+  <span class="string">`https://api.clawaimail.com/v1/inboxes/${inbox.id}/messages?status=unread`</span>,
+  {
+    headers: {
+      <span class="string">'Authorization'</span>: <span class="string">`Bearer ${process.env.CLAWAIMAIL_API_KEY}`</span>,
+    },
+  }
+);
+
+<span class="keyword">const</span> messages = <span class="keyword">await</span> messagesResponse.json();
+
+<span class="keyword">for</span> (<span class="keyword">const</span> msg <span class="keyword">of</span> messages.data) {
+  console.log(<span class="string">`From: ${msg.from}`</span>);
+  console.log(<span class="string">`Subject: ${msg.subject}`</span>);
+  console.log(<span class="string">`Body: ${msg.body}`</span>);
+  <span class="comment">// Process the email with your agent logic here</span>
+}</code></pre>
+
+        <h3>Python</h3>
+
+<pre><code>messages_response = requests.get(
+    <span class="string">f"https://api.clawaimail.com/v1/inboxes/{inbox['id']}/messages?status=unread"</span>,
+    headers={<span class="string">"Authorization"</span>: <span class="string">f"Bearer {api_key}"</span>},
+)
+
+messages = messages_response.json()
+
+<span class="keyword">for</span> msg <span class="keyword">in</span> messages[<span class="string">"data"</span>]:
+    print(<span class="string">f"From: {msg['from']}"</span>)
+    print(<span class="string">f"Subject: {msg['subject']}"</span>)
+    print(<span class="string">f"Body: {msg['body']}"</span>)
+    <span class="comment"># Process the email with your agent logic here</span></code></pre>
+
+        <h2><span class="step-number">5</span> Set Up MCP for Claude and Cursor</h2>
+
+        <p>If you are using an MCP-compatible AI platform like <strong>Claude</strong> or <strong>Cursor</strong>, you can skip the code above entirely. ClawAIMail's built-in MCP server lets your AI agent use email as a native tool.</p>
+
+        <h3>Install the MCP Server</h3>
+
+<pre><code>npm install -g @clawaimail/mcp-server</code></pre>
+
+        <h3>Configure for Claude Desktop</h3>
+
+        <p>Add the following to your Claude Desktop MCP configuration file (<code>claude_desktop_config.json</code>):</p>
+
+<pre><code>{
+  <span class="string">"mcpServers"</span>: {
+    <span class="string">"clawaimail"</span>: {
+      <span class="string">"command"</span>: <span class="string">"npx"</span>,
+      <span class="string">"args"</span>: [<span class="string">"@clawaimail/mcp-server"</span>],
+      <span class="string">"env"</span>: {
+        <span class="string">"CLAWAIMAIL_API_KEY"</span>: <span class="string">"your_api_key_here"</span>
+      }
+    }
+  }
+}</code></pre>
+
+        <h3>Configure for Cursor</h3>
+
+        <p>Add the same configuration to your Cursor MCP settings file (<code>.cursor/mcp.json</code> in your project root):</p>
+
+<pre><code>{
+  <span class="string">"mcpServers"</span>: {
+    <span class="string">"clawaimail"</span>: {
+      <span class="string">"command"</span>: <span class="string">"npx"</span>,
+      <span class="string">"args"</span>: [<span class="string">"@clawaimail/mcp-server"</span>],
+      <span class="string">"env"</span>: {
+        <span class="string">"CLAWAIMAIL_API_KEY"</span>: <span class="string">"your_api_key_here"</span>
+      }
+    }
+  }
+}</code></pre>
+
+        <h3>What Your Agent Can Do via MCP</h3>
+
+        <p>Once the MCP server is connected, your AI agent has access to these email tools:</p>
+
+        <ul>
+            <li><strong>create_inbox</strong> -- Create a new email address on the fly</li>
+            <li><strong>list_inboxes</strong> -- See all available inboxes</li>
+            <li><strong>send_email</strong> -- Send an email from any inbox</li>
+            <li><strong>read_emails</strong> -- Fetch and read messages from an inbox</li>
+            <li><strong>search_emails</strong> -- Search messages by sender, subject, or content</li>
+            <li><strong>delete_email</strong> -- Remove messages from an inbox</li>
+        </ul>
+
+        <p>Your agent can now send emails, read replies, and manage inboxes using natural language. For example, you could tell Claude: "Check my support inbox for new messages and draft replies to any unanswered questions."</p>
+
+        <h2>Next Steps</h2>
+
+        <p>You now have everything you need to give your AI agent full email capabilities. Here are some ideas for what to build next:</p>
+
+        <ul>
+            <li><strong>Customer support agent</strong> -- Monitor an inbox, classify incoming messages, and draft responses automatically</li>
+            <li><strong>Sales outreach agent</strong> -- Send personalized emails to prospects and handle replies</li>
+            <li><strong>Notification system</strong> -- Send alerts when your monitoring agent detects important events</li>
+            <li><strong>Workflow automation</strong> -- Trigger downstream actions when specific emails arrive</li>
+            <li><strong>Account creation agent</strong> -- Sign up for services, receive verification emails, and complete registration</li>
+        </ul>
+
+        <p>Check out the <a href="https://clawaimail.com">ClawAIMail documentation</a> for the full API reference, webhook configuration, custom domain setup, and advanced features.</p>
+
+        <div class="cta">
+            <h2>Ready to Build?</h2>
+            <p>Sign up for free and create your first AI agent inbox in under a minute.</p>
+            <a href="https://clawaimail.com" class="button">Get Your Free API Key</a>
+        </div>
+    </article>
+
+    <footer>
+        &copy; 2026 <a href="https://clawaimail.com">ClawAIMail</a>. All rights reserved.
+    </footer>
+</body>
+</html>

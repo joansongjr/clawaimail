@@ -1,0 +1,582 @@
+openapi: 3.1.0
+info:
+  title: ClawAIMail API
+  description: Email infrastructure for AI agents. Create inboxes, send/receive emails, and manage email programmatically.
+  version: 1.0.0
+  contact:
+    name: ClawAIMail
+    url: https://clawaimail.com
+servers:
+  - url: https://api.clawaimail.com
+    description: Production
+security:
+  - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: "API key with prefix pb_"
+  schemas:
+    Inbox:
+      type: object
+      properties:
+        id: { type: integer }
+        address: { type: string, example: "mybot@clawaimail.com" }
+        display_name: { type: string }
+        created_at: { type: string, format: date-time }
+    Message:
+      type: object
+      properties:
+        id: { type: integer }
+        inbox_id: { type: integer }
+        message_id: { type: string }
+        direction: { type: string, enum: [inbound, outbound] }
+        from_address: { type: string }
+        to_address: { type: string }
+        subject: { type: string }
+        text_body: { type: string }
+        html_body: { type: string }
+        thread_id: { type: string }
+        is_read: { type: boolean }
+        created_at: { type: string, format: date-time }
+    Error:
+      type: object
+      properties:
+        error: { type: string }
+paths:
+  /v1/auth/register:
+    post:
+      summary: Create a new account
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string, minLength: 6 }
+      responses:
+        "201":
+          description: Account created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  api_key: { type: string, example: "pb_abc123" }
+                  user: { type: object }
+  /v1/auth/login:
+    post:
+      summary: Login to existing account
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string }
+                password: { type: string }
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  api_key: { type: string }
+                  user: { type: object }
+  /v1/me:
+    get:
+      summary: Get account info, plan limits, and usage
+      responses:
+        "200":
+          description: Account information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: { type: integer }
+                  email: { type: string }
+                  plan: { type: string }
+                  limits: { type: object }
+                  usage: { type: object }
+  /v1/inboxes:
+    get:
+      summary: List all inboxes
+      responses:
+        "200":
+          description: List of inboxes
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Inbox" }
+    post:
+      summary: Create a new email inbox
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username]
+              properties:
+                username:
+                  type: string
+                  description: "Email username (2-30 chars, alphanumeric/dots/hyphens)"
+                  example: "mybot"
+                display_name: { type: string }
+                domain: { type: string, description: "Custom domain (requires verified domain)" }
+      responses:
+        "201":
+          description: Inbox created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Inbox" }
+        "409":
+          description: Address already taken
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+  /v1/inboxes/{id}:
+    get:
+      summary: Get inbox details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Inbox" }
+    delete:
+      summary: Delete an inbox
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+  /v1/inboxes/{inboxId}/messages:
+    get:
+      summary: List messages in an inbox
+      parameters:
+        - name: inboxId
+          in: path
+          required: true
+          schema: { type: integer }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 50 }
+        - name: offset
+          in: query
+          schema: { type: integer, default: 0 }
+        - name: unread
+          in: query
+          schema: { type: boolean }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Message" }
+  /v1/inboxes/{inboxId}/messages/{id}:
+    get:
+      summary: Read a specific email (marks as read)
+      parameters:
+        - name: inboxId
+          in: path
+          required: true
+          schema: { type: integer }
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Message" }
+  /v1/messages/send:
+    post:
+      summary: Send an email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [inbox_id, to, subject]
+              properties:
+                inbox_id: { type: integer, description: "Inbox to send from" }
+                to: { type: string, format: email }
+                subject: { type: string }
+                text: { type: string, description: "Plain text body" }
+                html: { type: string, description: "HTML body" }
+                thread_id: { type: string }
+      responses:
+        "200":
+          description: Email sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: { type: integer }
+                  messageId: { type: string }
+        "429":
+          description: Daily send limit reached
+  /v1/inboxes/{inboxId}/search:
+    get:
+      summary: Search emails by keyword
+      parameters:
+        - name: inboxId
+          in: path
+          required: true
+          schema: { type: integer }
+        - name: q
+          in: query
+          required: true
+          schema: { type: string }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 20 }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Message" }
+  /v1/inboxes/{inboxId}/threads:
+    get:
+      summary: List email threads
+      parameters:
+        - name: inboxId
+          in: path
+          required: true
+          schema: { type: integer }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 20 }
+        - name: offset
+          in: query
+          schema: { type: integer, default: 0 }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    thread_id: { type: string }
+                    subject: { type: string }
+                    message_count: { type: integer }
+                    last_message_at: { type: string }
+  /v1/inboxes/{inboxId}/threads/{threadId}:
+    get:
+      summary: Get all messages in a thread
+      parameters:
+        - name: inboxId
+          in: path
+          required: true
+          schema: { type: integer }
+        - name: threadId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  thread_id: { type: string }
+                  messages:
+                    type: array
+                    items: { $ref: "#/components/schemas/Message" }
+  /v1/labels:
+    get:
+      summary: List labels
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: { type: integer }
+                    name: { type: string }
+                    color: { type: string }
+    post:
+      summary: Create a label
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name: { type: string }
+                color: { type: string, example: "#ff0000" }
+      responses:
+        "201":
+          description: Label created
+  /v1/labels/{id}:
+    delete:
+      summary: Delete a label
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+  /v1/webhooks:
+    get:
+      summary: List webhooks
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: { type: integer }
+                    url: { type: string }
+                    events: { type: string }
+    post:
+      summary: Create a webhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [url]
+              properties:
+                url: { type: string, format: uri }
+                events:
+                  type: array
+                  items: { type: string }
+                  default: ["email_received"]
+      responses:
+        "200":
+          description: Webhook created
+  /v1/webhooks/{id}:
+    delete:
+      summary: Delete a webhook
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+  /v1/domains:
+    get:
+      summary: List custom domains
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: { type: integer }
+                    domain: { type: string }
+                    verified: { type: boolean }
+    post:
+      summary: Add a custom domain (paid plans only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [domain]
+              properties:
+                domain: { type: string }
+      responses:
+        "201":
+          description: Domain added with verification instructions
+  /v1/domains/{id}/verify:
+    post:
+      summary: Verify domain DNS records
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  verified: { type: boolean }
+                  message: { type: string }
+  /v1/domains/{id}:
+    delete:
+      summary: Delete a custom domain
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+  /v1/api-keys:
+    get:
+      summary: List API keys
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: { type: integer }
+                    name: { type: string }
+                    key_prefix: { type: string }
+                    created_at: { type: string }
+    post:
+      summary: Create a new API key
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: { type: string, default: "unnamed" }
+      responses:
+        "201":
+          description: API key created (full key only shown once)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: { type: integer }
+                  key: { type: string, example: "pb_abc123..." }
+                  name: { type: string }
+  /v1/api-keys/{id}:
+    delete:
+      summary: Delete an API key
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+  /v1/plans:
+    get:
+      summary: Get available plans and pricing
+      security: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: { type: string }
+                    name: { type: string }
+                    price: { type: number }
+  /v1/billing/checkout:
+    post:
+      summary: Create a Stripe checkout session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [plan]
+              properties:
+                plan: { type: string, enum: [pro, business] }
+                success_url: { type: string }
+                cancel_url: { type: string }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url: { type: string }
+                  session_id: { type: string }
+  /health:
+    get:
+      summary: Health check
+      security: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string }
+                  service: { type: string }
+                  ws_connections: { type: integer }
+                  timestamp: { type: string }

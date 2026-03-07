@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClawAIMail - Email for AI Agents</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #e0e0e0; }
+    a { color: #7c9fff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+
+    /* Nav */
+    nav { padding: 16px 0; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
+    nav .logo { font-size: 20px; font-weight: 700; color: #fff; }
+    nav .logo span { color: #7c9fff; }
+    nav .nav-links { display: flex; gap: 16px; align-items: center; }
+    .btn { padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-size: 14px; font-weight: 500; }
+    .btn-primary { background: #7c9fff; color: #000; }
+    .btn-primary:hover { background: #9bb5ff; }
+    .btn-outline { background: none; border: 1px solid #444; color: #e0e0e0; }
+    .btn-outline:hover { border-color: #7c9fff; }
+    .btn-sm { padding: 6px 12px; font-size: 13px; }
+    .btn-danger { background: #ff4444; color: #fff; }
+
+    /* Hero */
+    .hero { text-align: center; padding: 80px 0 60px; }
+    .hero h1 { font-size: 48px; margin-bottom: 16px; color: #fff; }
+    .hero h1 span { color: #7c9fff; }
+    .hero p { font-size: 18px; color: #999; max-width: 600px; margin: 0 auto 32px; }
+    .hero-code { background: #151515; border: 1px solid #333; border-radius: 8px; padding: 24px; max-width: 520px; margin: 0 auto; text-align: left; font-family: monospace; font-size: 14px; line-height: 1.8; }
+    .hero-code .kw { color: #c678dd; }
+    .hero-code .fn { color: #61afef; }
+    .hero-code .str { color: #98c379; }
+    .hero-code .cm { color: #666; }
+
+    /* Features */
+    .features { padding: 60px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .feature { background: #151515; border: 1px solid #222; border-radius: 8px; padding: 24px; }
+    .feature h3 { margin-bottom: 8px; color: #fff; }
+    .feature p { color: #999; font-size: 14px; line-height: 1.6; }
+
+    /* Pricing */
+    .pricing { padding: 60px 0; text-align: center; }
+    .pricing h2 { font-size: 32px; margin-bottom: 40px; color: #fff; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .plan { background: #151515; border: 1px solid #222; border-radius: 8px; padding: 32px 24px; }
+    .plan.featured { border-color: #7c9fff; }
+    .plan h3 { font-size: 20px; margin-bottom: 8px; color: #fff; }
+    .plan .price { font-size: 36px; font-weight: 700; color: #fff; margin: 16px 0; }
+    .plan .price span { font-size: 16px; color: #999; font-weight: 400; }
+    .plan ul { list-style: none; text-align: left; margin: 24px 0; }
+    .plan ul li { padding: 6px 0; color: #ccc; font-size: 14px; }
+    .plan ul li::before { content: "->"; margin-right: 8px; color: #7c9fff; }
+
+    /* Auth */
+    .auth-section { display: none; padding: 40px 0; }
+    .auth-section.active { display: block; }
+    .auth-box { max-width: 400px; margin: 0 auto; background: #151515; border: 1px solid #222; border-radius: 8px; padding: 32px; }
+    .auth-box h2 { margin-bottom: 20px; color: #fff; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; margin-bottom: 6px; color: #999; font-size: 13px; }
+    .form-group input { width: 100%; padding: 10px 12px; background: #0a0a0a; border: 1px solid #333; border-radius: 6px; color: #e0e0e0; font-size: 14px; }
+    .form-group input:focus { outline: none; border-color: #7c9fff; }
+    .error-msg { color: #ff4444; font-size: 13px; margin-top: 8px; }
+
+    /* Dashboard */
+    .dashboard { display: none; padding: 40px 0; }
+    .dashboard.active { display: block; }
+    .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .dash-header h2 { color: #fff; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+    .stat { background: #151515; border: 1px solid #222; border-radius: 8px; padding: 16px; }
+    .stat .label { color: #999; font-size: 13px; }
+    .stat .value { font-size: 24px; font-weight: 700; color: #fff; margin-top: 4px; }
+    .section { margin-bottom: 32px; }
+    .section h3 { color: #fff; margin-bottom: 12px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #222; font-size: 14px; }
+    th { color: #999; font-weight: 500; }
+    .badge { padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+    .badge-free { background: #333; color: #ccc; }
+    .badge-starter { background: #2a2a1a; color: #e0c050; }
+    .badge-pro { background: #1a3a1a; color: #4caf50; }
+    .badge-business { background: #1a2a4a; color: #7c9fff; }
+    .api-key { font-family: monospace; background: #0a0a0a; padding: 2px 6px; border-radius: 3px; }
+    .empty { text-align: center; padding: 32px; color: #666; }
+    .inline-form { display: flex; gap: 8px; margin-bottom: 16px; }
+    .inline-form input { flex: 1; padding: 8px 12px; background: #0a0a0a; border: 1px solid #333; border-radius: 6px; color: #e0e0e0; }
+
+    @media (max-width: 900px) {
+      .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .features, .pricing-grid, .stats { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="logo">Claw<span>AI</span>Mail</div>
+      <div class="nav-links" id="nav-links">
+        <a href="#" onclick="showSection('landing')">Home</a>
+        <button class="btn btn-outline btn-sm" onclick="showSection('login')">Log In</button>
+        <button class="btn btn-primary btn-sm" onclick="showSection('register')">Sign Up</button>
+      </div>
+    </nav>
+
+    <!-- Landing -->
+    <div id="landing">
+      <div class="hero">
+        <h1>Email for <span>AI Agents</span></h1>
+        <p>Give your AI agents real email addresses. Send, receive, and manage emails through a simple API.</p>
+        <div class="hero-code">
+          <span class="kw">import</span> { ClawAIMail } <span class="kw">from</span> <span class="str">'clawaimail'</span>;<br><br>
+          <span class="kw">const</span> client = <span class="kw">new</span> <span class="fn">ClawAIMail</span>({ apiKey: <span class="str">'pb_...'</span> });<br><br>
+          <span class="cm">// Create an inbox</span><br>
+          <span class="kw">const</span> inbox = <span class="kw">await</span> client.<span class="fn">createInbox</span>({<br>
+          &nbsp;&nbsp;username: <span class="str">'mybot'</span><br>
+          }); <span class="cm">// mybot@clawaimail.com</span><br><br>
+          <span class="cm">// Send an email</span><br>
+          <span class="kw">await</span> client.<span class="fn">sendMessage</span>({<br>
+          &nbsp;&nbsp;inboxId: inbox.id,<br>
+          &nbsp;&nbsp;to: <span class="str">'user@gmail.com'</span>,<br>
+          &nbsp;&nbsp;subject: <span class="str">'Hello from AI'</span>,<br>
+          &nbsp;&nbsp;text: <span class="str">'Your agent is ready.'</span><br>
+          });
+        </div>
+      </div>
+
+      <div class="features">
+        <div class="feature">
+          <h3>API-First</h3>
+          <p>RESTful API with SDKs for Node.js and Python. Create inboxes, send and receive emails programmatically.</p>
+        </div>
+        <div class="feature">
+          <h3>Real-Time</h3>
+          <p>WebSocket notifications when new emails arrive. Webhook support for event-driven architectures.</p>
+        </div>
+        <div class="feature">
+          <h3>MCP Ready</h3>
+          <p>Built-in MCP server. Works with OpenClaw, Claude Code, Cursor, and any MCP-compatible AI tool.</p>
+        </div>
+        <div class="feature">
+          <h3>Custom Domains</h3>
+          <p>Use your own domain for agent emails. Full DNS verification and management.</p>
+        </div>
+        <div class="feature">
+          <h3>Smart Features</h3>
+          <p>Email threading, labels, search, and more. Everything agents need to manage conversations.</p>
+        </div>
+        <div class="feature">
+          <h3>Built for Scale</h3>
+          <p>From 3 free inboxes to unlimited. Powered by battle-tested email infrastructure.</p>
+        </div>
+      </div>
+
+      <div class="pricing" id="pricing">
+        <h2>Pricing</h2>
+        <div class="pricing-grid">
+          <div class="plan">
+            <h3>Free</h3>
+            <div class="price">$0</div>
+            <ul>
+              <li>3 inboxes</li>
+              <li>3K emails/month</li>
+              <li>100 emails/day</li>
+              <li>3 GB storage</li>
+              <li>2 webhooks</li>
+              <li>REST API + SDK</li>
+            </ul>
+            <button class="btn btn-outline" style="width:100%" onclick="showSection('register')">Get Started</button>
+          </div>
+          <div class="plan">
+            <h3>Starter</h3>
+            <div class="price">$5<span>/mo</span></div>
+            <ul>
+              <li>10 inboxes</li>
+              <li>5K emails/month</li>
+              <li>No daily limit</li>
+              <li>10 GB storage</li>
+              <li>5 webhooks</li>
+              <li>MCP Server</li>
+            </ul>
+            <button class="btn btn-primary" style="width:100%" onclick="showSection('register')">Start Now</button>
+          </div>
+          <div class="plan featured">
+            <h3>Pro</h3>
+            <div class="price">$29<span>/mo</span></div>
+            <ul>
+              <li>50 inboxes</li>
+              <li>50K emails/month</li>
+              <li>50 GB storage</li>
+              <li>20 custom domains</li>
+              <li>20 webhooks</li>
+              <li>Priority support</li>
+            </ul>
+            <button class="btn btn-primary" style="width:100%" onclick="showSection('register')">Upgrade</button>
+          </div>
+          <div class="plan">
+            <h3>Business</h3>
+            <div class="price">$99<span>/mo</span></div>
+            <ul>
+              <li>200 inboxes</li>
+              <li>200K emails/month</li>
+              <li>200 GB storage</li>
+              <li>Unlimited domains</li>
+              <li>Unlimited webhooks</li>
+              <li>Dedicated support</li>
+            </ul>
+            <button class="btn btn-outline" style="width:100%" onclick="showSection('register')">Upgrade</button>
+          </div>
+        </div>
+        <p style="margin-top:24px;color:#666;font-size:14px">Need more? <a href="mailto:enterprise@clawaimail.com">Contact us</a> for Enterprise plans with custom volume pricing.</p>
+      </div>
+    </div>
+
+    <!-- Login -->
+    <div class="auth-section" id="login-section">
+      <div class="auth-box">
+        <h2>Log In</h2>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="login-email" placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login-password" placeholder="Password">
+        </div>
+        <div class="error-msg" id="login-error"></div>
+        <button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="doLogin()">Log In</button>
+        <p style="text-align:center;margin-top:16px;font-size:13px;color:#999">
+          Don't have an account? <a href="#" onclick="showSection('register')">Sign up</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Register -->
+    <div class="auth-section" id="register-section">
+      <div class="auth-box">
+        <h2>Create Account</h2>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="reg-email" placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label>Password (min 8 characters)</label>
+          <input type="password" id="reg-password" placeholder="Password">
+        </div>
+        <div class="error-msg" id="reg-error"></div>
+        <button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="doRegister()">Create Account</button>
+        <p style="text-align:center;margin-top:16px;font-size:13px;color:#999">
+          Already have an account? <a href="#" onclick="showSection('login')">Log in</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard-section">
+      <div class="dash-header">
+        <h2>Dashboard</h2>
+        <button class="btn btn-outline btn-sm" onclick="doLogout()">Log Out</button>
+      </div>
+
+      <div class="stats" id="stats"></div>
+
+      <div class="section">
+        <h3>Inboxes</h3>
+        <div class="inline-form">
+          <input type="text" id="new-inbox" placeholder="username (e.g. mybot)">
+          <button class="btn btn-primary btn-sm" onclick="createInbox()">Create</button>
+        </div>
+        <table>
+          <thead><tr><th>Address</th><th>Created</th><th></th></tr></thead>
+          <tbody id="inbox-list"></tbody>
+        </table>
+      </div>
+
+      <div class="section">
+        <h3>API Keys</h3>
+        <div class="inline-form">
+          <input type="text" id="new-key-name" placeholder="Key name (e.g. production)">
+          <button class="btn btn-primary btn-sm" onclick="createKey()">Create</button>
+        </div>
+        <table>
+          <thead><tr><th>Name</th><th>Key</th><th>Created</th><th></th></tr></thead>
+          <tbody id="key-list"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+<script>
+const API = window.location.origin;
+let token = localStorage.getItem('clawaimail_token');
+
+function showSection(name) {
+  document.getElementById('landing').style.display = name === 'landing' ? 'block' : 'none';
+  document.getElementById('login-section').className = 'auth-section' + (name === 'login' ? ' active' : '');
+  document.getElementById('register-section').className = 'auth-section' + (name === 'register' ? ' active' : '');
+  document.getElementById('dashboard-section').className = 'dashboard' + (name === 'dashboard' ? ' active' : '');
+
+  if (name === 'dashboard') {
+    document.getElementById('nav-links').innerHTML = `
+      <a href="#" onclick="showSection('dashboard')">Dashboard</a>
+      <button class="btn btn-outline btn-sm" onclick="doLogout()">Log Out</button>
+    `;
+    loadDashboard();
+  } else {
+    document.getElementById('nav-links').innerHTML = `
+      <a href="#" onclick="showSection('landing')">Home</a>
+      <button class="btn btn-outline btn-sm" onclick="showSection('login')">Log In</button>
+      <button class="btn btn-primary btn-sm" onclick="showSection('register')">Sign Up</button>
+    `;
+  }
+}
+
+async function apiFetch(method, path, body) {
+  const opts = { method, headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' } };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(API + path, opts);
+  return { ok: res.ok, status: res.status, data: await res.json() };
+}
+
+async function doRegister() {
+  const email = document.getElementById('reg-email').value;
+  const password = document.getElementById('reg-password').value;
+  const res = await fetch(API + '/v1/auth/register', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+  });
+  const data = await res.json();
+  if (!res.ok) { document.getElementById('reg-error').textContent = data.error; return; }
+  token = data.api_key;
+  localStorage.setItem('clawaimail_token', token);
+  showSection('dashboard');
+}
+
+async function doLogin() {
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+  const res = await fetch(API + '/v1/auth/login', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+  });
+  const data = await res.json();
+  if (!res.ok) { document.getElementById('login-error').textContent = data.error; return; }
+  token = data.api_key;
+  localStorage.setItem('clawaimail_token', token);
+  showSection('dashboard');
+}
+
+function doLogout() {
+  token = null;
+  localStorage.removeItem('clawaimail_token');
+  showSection('landing');
+}
+
+async function loadDashboard() {
+  const { data: me } = await apiFetch('GET', '/v1/me');
+  const planBadge = { free: 'badge-free', starter: 'badge-starter', pro: 'badge-pro', business: 'badge-business' };
+
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><div class="label">Plan</div><div class="value"><span class="badge ${planBadge[me.plan] || 'badge-free'}">${me.plan}</span></div></div>
+    <div class="stat"><div class="label">Inboxes</div><div class="value">${me.usage.inboxes} / ${me.limits.maxInboxes === -1 ? '&infin;' : me.limits.maxInboxes}</div></div>
+    <div class="stat"><div class="label">Sent Today</div><div class="value">${me.usage.sent_today} / ${me.limits.maxSendPerDay === -1 ? '&infin;' : me.limits.maxSendPerDay}</div></div>
+    <div class="stat"><div class="label">Email</div><div class="value" style="font-size:14px">${me.email}</div></div>
+  `;
+
+  // Inboxes
+  const { data: inboxes } = await apiFetch('GET', '/v1/inboxes');
+  const inboxList = document.getElementById('inbox-list');
+  inboxList.innerHTML = inboxes.length ? inboxes.map(i => `
+    <tr>
+      <td>${i.address}</td>
+      <td>${new Date(i.created_at).toLocaleDateString()}</td>
+      <td><button class="btn btn-danger btn-sm" onclick="deleteInbox(${i.id})">Delete</button></td>
+    </tr>
+  `).join('') : '<tr><td colspan="3" class="empty">No inboxes yet</td></tr>';
+
+  // API Keys
+  const { data: keys } = await apiFetch('GET', '/v1/api-keys');
+  const keyList = document.getElementById('key-list');
+  keyList.innerHTML = keys.length ? keys.map(k => `
+    <tr>
+      <td>${k.name}</td>
+      <td><span class="api-key">${k.key}</span></td>
+      <td>${new Date(k.created_at).toLocaleDateString()}</td>
+      <td><button class="btn btn-danger btn-sm" onclick="deleteKey(${k.id})">Delete</button></td>
+    </tr>
+  `).join('') : '<tr><td colspan="4" class="empty">No API keys</td></tr>';
+}
+
+async function createInbox() {
+  const username = document.getElementById('new-inbox').value.trim();
+  if (!username) return;
+  const { ok, data } = await apiFetch('POST', '/v1/inboxes', { username });
+  if (!ok) return alert(data.error);
+  document.getElementById('new-inbox').value = '';
+  loadDashboard();
+}
+
+async function deleteInbox(id) {
+  if (!confirm('Delete this inbox and all its emails?')) return;
+  await apiFetch('DELETE', '/v1/inboxes/' + id);
+  loadDashboard();
+}
+
+async function createKey() {
+  const name = document.getElementById('new-key-name').value.trim() || 'unnamed';
+  const { ok, data } = await apiFetch('POST', '/v1/api-keys', { name });
+  if (!ok) return alert(data.error);
+  alert('New API Key (save it now!):\\n\\n' + data.key);
+  document.getElementById('new-key-name').value = '';
+  loadDashboard();
+}
+
+async function deleteKey(id) {
+  if (!confirm('Delete this API key?')) return;
+  await apiFetch('DELETE', '/v1/api-keys/' + id);
+  loadDashboard();
+}
+
+// Auto-login if token exists
+if (token) {
+  showSection('dashboard');
+} else {
+  showSection('landing');
+}
+</script>
+</body>
+</html>

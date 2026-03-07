@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClawAIMail API Documentation</title>
+  <meta name="description" content="API documentation for ClawAIMail - Email infrastructure for AI agents. Create inboxes, send/receive emails via REST API, MCP Server, and SDKs.">
+  <meta name="keywords" content="email api, ai agent email, mcp server, claude email, cursor email, ai email api, clawaimail">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #e0e0e0; line-height: 1.7; }
+    .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+    h1 { font-size: 2.2rem; margin-bottom: 8px; color: #fff; }
+    h1 span { color: #60a5fa; }
+    .subtitle { color: #888; font-size: 1.1rem; margin-bottom: 40px; }
+    h2 { font-size: 1.5rem; color: #fff; margin: 48px 0 16px; padding-bottom: 8px; border-bottom: 1px solid #222; }
+    h3 { font-size: 1.1rem; color: #60a5fa; margin: 28px 0 8px; }
+    p { margin-bottom: 12px; color: #bbb; }
+    a { color: #60a5fa; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { background: #1a1a2e; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; color: #e0e0e0; }
+    pre { background: #111; border: 1px solid #222; border-radius: 8px; padding: 16px; overflow-x: auto; margin: 12px 0 20px; }
+    pre code { background: none; padding: 0; }
+    .endpoint { background: #111; border: 1px solid #222; border-radius: 8px; padding: 16px 20px; margin: 12px 0; }
+    .endpoint .method { display: inline-block; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.8rem; margin-right: 8px; }
+    .method.get { background: #065f46; color: #6ee7b7; }
+    .method.post { background: #1e3a5f; color: #60a5fa; }
+    .method.delete { background: #5f1e1e; color: #fca5a5; }
+    .endpoint .path { font-family: monospace; font-size: 0.95rem; color: #fff; }
+    .endpoint .desc { color: #888; font-size: 0.9rem; margin-top: 4px; }
+    .badge { display: inline-block; background: #1e3a5f; color: #60a5fa; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; margin-left: 8px; }
+    .badge.auth { background: #3b1e0a; color: #fbbf24; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+    th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #222; }
+    th { color: #888; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; }
+    .nav { position: sticky; top: 0; background: #0a0a0a; border-bottom: 1px solid #222; padding: 12px 0; margin-bottom: 20px; z-index: 10; }
+    .nav a { margin-right: 16px; font-size: 0.9rem; color: #888; }
+    .nav a:hover { color: #60a5fa; text-decoration: none; }
+    .highlight { background: #0f172a; border-left: 3px solid #60a5fa; padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="nav">
+    <a href="/">Home</a>
+    <a href="#quickstart">Quick Start</a>
+    <a href="#auth">Auth</a>
+    <a href="#inboxes">Inboxes</a>
+    <a href="#messages">Messages</a>
+    <a href="#search">Search</a>
+    <a href="#threads">Threads</a>
+    <a href="#webhooks">Webhooks</a>
+    <a href="#mcp">MCP Server</a>
+    <a href="#sdks">SDKs</a>
+  </div>
+
+  <h1>ClawAI<span>Mail</span> API Docs</h1>
+  <p class="subtitle">Email infrastructure for AI agents. Full REST API, MCP Server, and SDKs.</p>
+
+  <div class="highlight">
+    <strong>Base URL:</strong> <code>https://api.clawaimail.com</code><br>
+    <strong>Auth:</strong> <code>Authorization: Bearer pb_your_api_key</code><br>
+    <strong>OpenAPI Spec:</strong> <a href="/openapi.yaml">/openapi.yaml</a> &nbsp;|&nbsp;
+    <strong>AI Info:</strong> <a href="/llms.txt">/llms.txt</a>
+  </div>
+
+  <h2 id="quickstart">Quick Start</h2>
+  <p>1. Register an account and get your API key:</p>
+  <pre><code>curl -X POST https://api.clawaimail.com/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"you@example.com","password":"secret123"}'</code></pre>
+  <p>2. Create an inbox:</p>
+  <pre><code>curl -X POST https://api.clawaimail.com/v1/inboxes \
+  -H "Authorization: Bearer pb_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{"username":"mybot"}'
+
+# Returns: {"id":1,"address":"mybot@clawaimail.com",...}</code></pre>
+  <p>3. Send an email:</p>
+  <pre><code>curl -X POST https://api.clawaimail.com/v1/messages/send \
+  -H "Authorization: Bearer pb_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{"inbox_id":1,"to":"user@gmail.com","subject":"Hello","text":"Hi from AI!"}'</code></pre>
+
+  <h2 id="auth">Authentication</h2>
+  <p>All API requests (except register/login/health) require a Bearer token:</p>
+  <pre><code>Authorization: Bearer pb_your_api_key</code></pre>
+
+  <div class="endpoint">
+    <span class="method post">POST</span>
+    <span class="path">/v1/auth/register</span>
+    <span class="badge">public</span>
+    <div class="desc">Create account. Body: <code>{"email":"...","password":"..."}</code>. Returns API key.</div>
+  </div>
+  <div class="endpoint">
+    <span class="method post">POST</span>
+    <span class="path">/v1/auth/login</span>
+    <span class="badge">public</span>
+    <div class="desc">Login. Body: <code>{"email":"...","password":"..."}</code>. Returns API key.</div>
+  </div>
+  <div class="endpoint">
+    <span class="method get">GET</span>
+    <span class="path">/v1/me</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">Get account info, plan, limits, and usage stats.</div>
+  </div>
+
+  <h2 id="inboxes">Inboxes</h2>
+  <div class="endpoint">
+    <span class="method post">POST</span>
+    <span class="path">/v1/inboxes</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">Create inbox. Body: <code>{"username":"mybot"}</code> creates <code>mybot@clawaimail.com</code></div>
+  </div>
+  <div class="endpoint">
+    <span class="method get">GET</span>
+    <span class="path">/v1/inboxes</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">List all your inboxes.</div>
+  </div>
+  <div class="endpoint">
+    <span class="method get">GET</span>
+    <span class="path">/v1/inboxes/:id</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">Get inbox details.</div>
+  </div>
+  <div class="endpoint">
+    <span class="method delete">DELETE</span>
+    <span class="path">/v1/inboxes/:id</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">Delete inbox and all its messages.</div>
+  </div>
+
+  <h2 id="messages">Messages</h2>
+  <div class="endpoint">
+    <span class="method get">GET</span>
+    <span class="path">/v1/inboxes/:id/messages</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">List messages. Query params: <code>limit</code>, <code>offset</code>, <code>unread=true</code></div>
+  </div>
+  <div class="endpoint">
+    <span class="method get">GET</span>
+    <span class="path">/v1/inboxes/:id/messages/:mid</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">Read a specific message (auto-marks as read).</div>
+  </div>
+  <div class="endpoint">
+    <span class="method post">POST</span>
+    <span class="path">/v1/messages/send</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">Send email. Body: <code>{"inbox_id":1,"to":"...","subject":"...","text":"..."}</code></div>
+  </div>
+
+  <h2 id="search">Search</h2>
+  <div class="endpoint">
+    <span class="method get">GET</span>
+    <span class="path">/v1/inboxes/:id/search?q=keyword</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">Full-text search across subject and body. Query params: <code>q</code> (required), <code>limit</code></div>
+  </div>
+
+  <h2 id="threads">Threads</h2>
+  <div class="endpoint">
+    <span class="method get">GET</span>
+    <span class="path">/v1/inboxes/:id/threads</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">List email threads. Query params: <code>limit</code>, <code>offset</code></div>
+  </div>
+  <div class="endpoint">
+    <span class="method get">GET</span>
+    <span class="path">/v1/inboxes/:id/threads/:threadId</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">Get all messages in a thread.</div>
+  </div>
+
+  <h2>Labels</h2>
+  <div class="endpoint">
+    <span class="method post">POST</span>
+    <span class="path">/v1/labels</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">Create label. Body: <code>{"name":"important","color":"#ff0000"}</code></div>
+  </div>
+  <div class="endpoint">
+    <span class="method get">GET</span>
+    <span class="path">/v1/labels</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">List your labels.</div>
+  </div>
+  <div class="endpoint">
+    <span class="method post">POST</span>
+    <span class="path">/v1/messages/:id/labels</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">Add label to message. Body: <code>{"label_id":1}</code></div>
+  </div>
+
+  <h2 id="webhooks">Webhooks</h2>
+  <div class="endpoint">
+    <span class="method post">POST</span>
+    <span class="path">/v1/webhooks</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">Create webhook. Body: <code>{"url":"https://...","events":["email_received"]}</code></div>
+  </div>
+  <div class="endpoint">
+    <span class="method get">GET</span>
+    <span class="path">/v1/webhooks</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">List webhooks.</div>
+  </div>
+
+  <h2>Custom Domains</h2>
+  <div class="endpoint">
+    <span class="method post">POST</span>
+    <span class="path">/v1/domains</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">Add custom domain (paid plans). Returns DNS verification instructions.</div>
+  </div>
+  <div class="endpoint">
+    <span class="method post">POST</span>
+    <span class="path">/v1/domains/:id/verify</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">Verify domain DNS records.</div>
+  </div>
+
+  <h2>API Keys</h2>
+  <div class="endpoint">
+    <span class="method post">POST</span>
+    <span class="path">/v1/api-keys</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">Create new API key. Body: <code>{"name":"my-bot"}</code></div>
+  </div>
+  <div class="endpoint">
+    <span class="method get">GET</span>
+    <span class="path">/v1/api-keys</span>
+    <span class="badge auth">auth</span>
+    <div class="desc">List API keys (key_prefix only, full key shown only on creation).</div>
+  </div>
+
+  <h2>WebSocket (Real-time)</h2>
+  <p>Connect to receive real-time email notifications:</p>
+  <pre><code>const ws = new WebSocket('wss://api.clawaimail.com/v1/ws?key=pb_your_key');
+ws.onmessage = (e) => {
+  const data = JSON.parse(e.data);
+  console.log('New email:', data);
+};</code></pre>
+
+  <h2 id="mcp">MCP Server</h2>
+  <p>Use ClawAIMail directly from Claude, Cursor, or any MCP-compatible AI tool:</p>
+  <pre><code>// Add to ~/.claude/mcp.json or Cursor MCP settings:
+{
+  "mcpServers": {
+    "clawaimail": {
+      "command": "npx",
+      "args": ["clawaimail-mcp"],
+      "env": {
+        "CLAWAIMAIL_API_KEY": "pb_your_api_key"
+      }
+    }
+  }
+}</code></pre>
+  <p>Available tools: <code>list_inboxes</code>, <code>create_inbox</code>, <code>send_email</code>, <code>list_messages</code>, <code>read_email</code>, <code>search_emails</code>, <code>delete_inbox</code>, <code>account_info</code></p>
+
+  <h2 id="sdks">SDKs</h2>
+  <h3>Node.js</h3>
+  <pre><code>npm install clawaimail</code></pre>
+  <pre><code>import ClawAIMail from 'clawaimail';
+
+const mail = new ClawAIMail({ apiKey: 'pb_xxx' });
+const inbox = await mail.createInbox({ username: 'mybot' });
+await mail.sendMessage({
+  inboxId: inbox.id,
+  to: 'user@gmail.com',
+  subject: 'Hello',
+  text: 'Sent by AI!'
+});
+const messages = await mail.listMessages(inbox.id);</code></pre>
+
+  <h3>Python</h3>
+  <pre><code>pip install clawaimail</code></pre>
+  <pre><code>from clawaimail import ClawAIMail
+
+mail = ClawAIMail(api_key="pb_xxx")
+inbox = mail.create_inbox(username="mybot")
+mail.send_message(
+    inbox_id=inbox["id"],
+    to="user@gmail.com",
+    subject="Hello",
+    text="Sent by AI!"
+)
+messages = mail.list_messages(inbox["id"])</code></pre>
+
+  <h2>Pricing</h2>
+  <table>
+    <tr><th>Plan</th><th>Inboxes</th><th>Emails/Day</th><th>Custom Domains</th><th>Price</th></tr>
+    <tr><td>Free</td><td>3</td><td>100</td><td>-</td><td>$0</td></tr>
+    <tr><td>Pro</td><td>50</td><td>5,000</td><td>Yes</td><td>$29/mo</td></tr>
+    <tr><td>Business</td><td>Unlimited</td><td>Unlimited</td><td>Yes</td><td>$99/mo</td></tr>
+  </table>
+
+  <p style="margin-top: 60px; color: #555; text-align: center;">&copy; 2026 ClawAIMail. Built for AI agents.</p>
+</div>
+</body>
+</html>
