@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers at ClawAIMail - Join Our Team</title>
+    <meta name="description" content="Join ClawAIMail and help build the email infrastructure for AI agents. We're hiring engineers, advocates, and marketers. Remote-first, equity, and flexible hours.">
+    <meta name="keywords" content="ClawAIMail careers, ClawAIMail jobs, AI startup jobs, remote engineering jobs, developer advocate jobs">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://clawaimail.com/careers/">
+    <meta property="og:title" content="Careers at ClawAIMail">
+    <meta property="og:description" content="We're building the email infrastructure for AI agents. See open positions and join our remote-first team.">
+    <meta property="og:url" content="https://clawaimail.com/careers/">
+    <meta property="og:type" content="website">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a0a;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+            line-height: 1.7;
+        }
+        a { color: #7c9fff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* Nav */
+        nav {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #1a1a2e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        nav .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        nav .logo span { color: #7c9fff; }
+        nav .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        nav .nav-links a {
+            color: #7c9fff;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem 4rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        .hero h1 span { color: #7c9fff; }
+        .hero p {
+            font-size: 1.25rem;
+            color: #999;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Section styling */
+        .section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        .section h2 {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* Why ClawAIMail */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .why-card {
+            background: #151515;
+            border: 1px solid #222;
+            border-radius: 10px;
+            padding: 1.75rem;
+        }
+        .why-card h3 {
+            color: #ffffff;
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+        }
+        .why-card p {
+            color: #999;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Open Positions */
+        .positions {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .position-card {
+            background: #151515;
+            border: 1px solid #222;
+            border-radius: 10px;
+            padding: 2rem;
+            transition: border-color 0.2s;
+        }
+        .position-card:hover {
+            border-color: #7c9fff;
+        }
+        .position-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        .position-header h3 {
+            color: #ffffff;
+            font-size: 1.3rem;
+        }
+        .position-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .tag {
+            background: #1a1a2e;
+            color: #7c9fff;
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .position-card p {
+            color: #b0b0b0;
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+            line-height: 1.7;
+        }
+        .position-card ul {
+            color: #999;
+            font-size: 0.9rem;
+            margin: 0 0 1.5rem 1.25rem;
+        }
+        .position-card ul li {
+            margin-bottom: 0.35rem;
+        }
+        .btn-apply {
+            display: inline-block;
+            background: #7c9fff;
+            color: #0a0a0a;
+            padding: 0.65rem 1.75rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .btn-apply:hover {
+            background: #6b8fee;
+            text-decoration: none;
+        }
+
+        /* Benefits */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .benefit {
+            background: #151515;
+            border: 1px solid #222;
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+        .benefit h3 {
+            color: #ffffff;
+            font-size: 1.05rem;
+            margin-bottom: 0.4rem;
+        }
+        .benefit p {
+            color: #999;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            border-top: 1px solid #1a1a2e;
+            color: #555;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+        footer a { color: #7c9fff; text-decoration: none; }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            .hero h1 { font-size: 2rem; }
+            .why-grid, .benefits-grid { grid-template-columns: 1fr; }
+            .position-header { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="/" class="logo">Claw<span>AI</span>Mail</a>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/blog/">Blog</a>
+            <a href="/docs/">Docs</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1>Join <span>ClawAIMail</span></h1>
+        <p>We're building the email infrastructure for AI agents. Come help us shape how the next generation of software communicates.</p>
+    </div>
+
+    <!-- Why ClawAIMail -->
+    <div class="section">
+        <h2>Why ClawAIMail</h2>
+        <div class="why-grid">
+            <div class="why-card">
+                <h3>Fast-Growing Market</h3>
+                <p>AI agents are the next computing platform. Every agent will need email, and we are building the infrastructure layer that makes it possible. You will work on a product with massive, growing demand.</p>
+            </div>
+            <div class="why-card">
+                <h3>Remote-First Team</h3>
+                <p>Work from anywhere in the world. We are a distributed team that values results over hours in a seat. Async communication, minimal meetings, and deep focus time are how we operate.</p>
+            </div>
+            <div class="why-card">
+                <h3>Open Source at Heart</h3>
+                <p>We believe in building in the open. Our MCP server, SDKs, and client libraries are open source. You will contribute to projects used by thousands of developers worldwide.</p>
+            </div>
+            <div class="why-card">
+                <h3>AI Meets Email</h3>
+                <p>We sit at the intersection of two massive categories: artificial intelligence and email infrastructure. The technical challenges here are unique, fascinating, and genuinely impactful.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Open Positions -->
+    <div class="section">
+        <h2>Open Positions</h2>
+        <div class="positions">
+
+            <!-- Position 1 -->
+            <div class="position-card">
+                <div class="position-header">
+                    <h3>Founding Engineer (Full-Stack)</h3>
+                    <div class="position-tags">
+                        <span class="tag">Remote</span>
+                        <span class="tag">Full-time</span>
+                        <span class="tag">Engineering</span>
+                    </div>
+                </div>
+                <p>We are looking for a founding full-stack engineer to own critical parts of our platform, from the API layer to the dashboard UI. You will work directly with the founders and have an outsized impact on the product and architecture.</p>
+                <ul>
+                    <li>Strong experience with Node.js and TypeScript</li>
+                    <li>Comfortable across the stack: REST APIs, databases, and modern frontend</li>
+                    <li>Experience with email protocols (SMTP, IMAP) is a plus but not required</li>
+                    <li>Bias toward shipping fast and iterating based on user feedback</li>
+                </ul>
+                <a href="mailto:careers@clawaimail.com?subject=Application%3A%20Founding%20Engineer%20(Full-Stack)" class="btn-apply">Apply</a>
+            </div>
+
+            <!-- Position 2 -->
+            <div class="position-card">
+                <div class="position-header">
+                    <h3>Developer Advocate</h3>
+                    <div class="position-tags">
+                        <span class="tag">Remote</span>
+                        <span class="tag">Full-time</span>
+                        <span class="tag">DevRel</span>
+                    </div>
+                </div>
+                <p>Help developers discover and succeed with ClawAIMail. You will create tutorials, write documentation, build demo projects, and represent ClawAIMail in developer communities. This role is equal parts technical writing, community engagement, and product feedback.</p>
+                <ul>
+                    <li>Excellent technical writing and communication skills</li>
+                    <li>Experience building with APIs and writing sample code in multiple languages</li>
+                    <li>Active presence in developer communities (GitHub, Twitter/X, Discord, etc.)</li>
+                    <li>Understanding of AI agent frameworks and the broader AI developer ecosystem</li>
+                </ul>
+                <a href="mailto:careers@clawaimail.com?subject=Application%3A%20Developer%20Advocate" class="btn-apply">Apply</a>
+            </div>
+
+            <!-- Position 3 -->
+            <div class="position-card">
+                <div class="position-header">
+                    <h3>Growth Marketing Lead</h3>
+                    <div class="position-tags">
+                        <span class="tag">Remote</span>
+                        <span class="tag">Full-time</span>
+                        <span class="tag">Marketing</span>
+                    </div>
+                </div>
+                <p>Own and execute ClawAIMail's growth strategy from SEO and content marketing to strategic partnerships. You will be our first dedicated marketing hire and will build the function from the ground up, with full autonomy to experiment and scale what works.</p>
+                <ul>
+                    <li>Proven track record in SEO, content marketing, or developer-focused growth</li>
+                    <li>Experience building and executing content strategies that drive organic traffic</li>
+                    <li>Ability to identify and close partnership and co-marketing opportunities</li>
+                    <li>Comfort working in an early-stage environment with fast iteration cycles</li>
+                </ul>
+                <a href="mailto:careers@clawaimail.com?subject=Application%3A%20Growth%20Marketing%20Lead" class="btn-apply">Apply</a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Benefits -->
+    <div class="section">
+        <h2>Benefits and Perks</h2>
+        <div class="benefits-grid">
+            <div class="benefit">
+                <h3>Work From Anywhere</h3>
+                <p>Fully remote with no location restrictions. Work from your home office, a co-working space, or a beach. We care about what you build, not where you sit.</p>
+            </div>
+            <div class="benefit">
+                <h3>Meaningful Equity</h3>
+                <p>Every team member gets a real equity stake. We are building something big, and we want everyone to share in the upside as we grow.</p>
+            </div>
+            <div class="benefit">
+                <h3>Flexible Hours</h3>
+                <p>Set your own schedule. We work asynchronously and trust you to manage your time. No mandatory 9-to-5, no tracking software, no micromanagement.</p>
+            </div>
+            <div class="benefit">
+                <h3>Latest AI Tools</h3>
+                <p>We provide access to the best AI development tools, including Claude Pro, Cursor, GitHub Copilot, and any other tools you need to do your best work.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2026 <a href="https://clawaimail.com">ClawAIMail</a>. All rights reserved.
+    </footer>
+
+</body>
+</html>

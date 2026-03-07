@@ -135,7 +135,7 @@ function lastInsertId() {
 // === 用户 ===
 
 export function createUser({ email, passwordHash }) {
-  db.run('INSERT INTO users (email, password_hash) VALUES (?, ?)', [email, passwordHash]);
+  db.run('INSERT INTO users (email, password_hash) VALUES (?, ?)', [email, passwordHash || '']);
   const id = lastInsertId();
   saveDb();
   return id;

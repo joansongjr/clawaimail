@@ -3,7 +3,7 @@ import http from 'http';
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { authenticate, handleRegister, handleLogin } from './auth.js';
+import { authenticate, handleRegister, handleLogin, handleGitHubLogin, handleGitHubCallback, handleGoogleLogin, handleGoogleCallback } from './auth.js';
 import { initWebSocket, getOnlineCount } from './ws.js';
 import {
   createInbox, getInboxes, getInboxById, deleteInbox, countInboxes,
@@ -42,6 +42,10 @@ app.get('/health', (req, res) => {
 
 app.post('/v1/auth/register', handleRegister);
 app.post('/v1/auth/login', handleLogin);
+app.get('/v1/auth/github', handleGitHubLogin);
+app.get('/v1/auth/github/callback', handleGitHubCallback);
+app.get('/v1/auth/google', handleGoogleLogin);
+app.get('/v1/auth/google/callback', handleGoogleCallback);
 
 // 计费信息（公开）
 app.get('/v1/plans', (req, res) => {

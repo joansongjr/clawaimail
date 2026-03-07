@@ -1,9 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ClawAIMail - Email for AI Agents</title>
+  <title>ClawAIMail - Email para Agentes de IA</title>
+  <meta name="description" content="D&ecirc; aos seus agentes de IA endere&ccedil;os de email reais. Envie, receba e gerencie emails atrav&eacute;s de uma API simples.">
+  <meta name="keywords" content="email IA, agentes IA, API email, email para bots">
+  <link rel="alternate" hreflang="en" href="/">
+  <link rel="alternate" hreflang="zh" href="/zh/">
+  <link rel="alternate" hreflang="ja" href="/ja/">
+  <link rel="alternate" hreflang="ko" href="/ko/">
+  <link rel="alternate" hreflang="es" href="/es/">
+  <link rel="alternate" hreflang="fr" href="/fr/">
+  <link rel="alternate" hreflang="de" href="/de/">
+  <link rel="alternate" hreflang="pt" href="/pt/">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #e0e0e0; }
@@ -105,38 +115,38 @@
     <nav>
       <div class="logo">Claw<span>AI</span>Mail</div>
       <div class="nav-links" id="nav-links">
-        <a href="#" onclick="showSection('landing')">Home</a>
+        <a href="#" onclick="showSection('landing')">In&iacute;cio</a>
         <div style="position:relative;display:inline-block" class="lang-menu">
-          <button class="btn btn-outline btn-sm" style="font-size:12px" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">EN &#9662;</button>
+          <button class="btn btn-outline btn-sm" style="font-size:12px" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">Portugu&ecirc;s &#9662;</button>
           <div style="display:none;position:absolute;right:0;top:100%;background:#151515;border:1px solid #333;border-radius:6px;padding:4px 0;z-index:50;min-width:120px">
             <a href="/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0">English</a>
             <a href="/zh/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0">中文</a>
             <a href="/ja/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0">日本語</a>
             <a href="/ko/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0">한국어</a>
-            <a href="/es/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0">Español</a>
-            <a href="/fr/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0">Français</a>
+            <a href="/es/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0">Espa&ntilde;ol</a>
+            <a href="/fr/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0">Fran&ccedil;ais</a>
             <a href="/de/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0">Deutsch</a>
-            <a href="/pt/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0">Português</a>
+            <a href="/pt/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0">Portugu&ecirc;s</a>
           </div>
         </div>
-        <button class="btn btn-outline btn-sm" onclick="showSection('login')">Log In</button>
-        <button class="btn btn-primary btn-sm" onclick="showSection('register')">Sign Up</button>
+        <button class="btn btn-outline btn-sm" onclick="showSection('login')">Entrar</button>
+        <button class="btn btn-primary btn-sm" onclick="showSection('register')">Criar Conta</button>
       </div>
     </nav>
 
-    <!-- Landing -->
+    <!-- P&aacute;gina Inicial -->
     <div id="landing">
       <div class="hero">
-        <h1>Email for <span>AI Agents</span></h1>
-        <p>Give your AI agents real email addresses. Send, receive, and manage emails through a simple API.</p>
+        <h1>Email para <span>Agentes de IA</span></h1>
+        <p>D&ecirc; aos seus agentes de IA endere&ccedil;os de email reais. Envie, receba e gerencie emails atrav&eacute;s de uma API simples.</p>
         <div class="hero-code">
           <span class="kw">import</span> { ClawAIMail } <span class="kw">from</span> <span class="str">'clawaimail'</span>;<br><br>
           <span class="kw">const</span> client = <span class="kw">new</span> <span class="fn">ClawAIMail</span>({ apiKey: <span class="str">'pb_...'</span> });<br><br>
-          <span class="cm">// Create an inbox</span><br>
+          <span class="cm">// Criar uma caixa de entrada</span><br>
           <span class="kw">const</span> inbox = <span class="kw">await</span> client.<span class="fn">createInbox</span>({<br>
           &nbsp;&nbsp;username: <span class="str">'mybot'</span><br>
           }); <span class="cm">// mybot@clawaimail.com</span><br><br>
-          <span class="cm">// Send an email</span><br>
+          <span class="cm">// Enviar um email</span><br>
           <span class="kw">await</span> client.<span class="fn">sendMessage</span>({<br>
           &nbsp;&nbsp;inboxId: inbox.id,<br>
           &nbsp;&nbsp;to: <span class="str">'user@gmail.com'</span>,<br>
@@ -148,179 +158,179 @@
 
       <div class="features">
         <div class="feature">
-          <h3>API-First</h3>
-          <p>RESTful API with SDKs for Node.js and Python. Create inboxes, send and receive emails programmatically.</p>
+          <h3>API em Primeiro Lugar</h3>
+          <p>API RESTful com SDKs para Node.js e Python. Crie caixas de entrada, envie e receba emails programaticamente.</p>
         </div>
         <div class="feature">
-          <h3>Real-Time</h3>
-          <p>WebSocket notifications when new emails arrive. Webhook support for event-driven architectures.</p>
+          <h3>Tempo Real</h3>
+          <p>Notifica&ccedil;&otilde;es WebSocket quando novos emails chegam. Suporte a webhooks para arquiteturas orientadas a eventos.</p>
         </div>
         <div class="feature">
-          <h3>MCP Ready</h3>
-          <p>Built-in MCP server. Works with OpenClaw, Claude Code, Cursor, and any MCP-compatible AI tool.</p>
+          <h3>Compat&iacute;vel com MCP</h3>
+          <p>Servidor MCP integrado. Funciona com OpenClaw, Claude Code, Cursor e qualquer ferramenta de IA compat&iacute;vel com MCP.</p>
         </div>
         <div class="feature">
-          <h3>Custom Domains</h3>
-          <p>Use your own domain for agent emails. Full DNS verification and management.</p>
+          <h3>Dom&iacute;nios Personalizados</h3>
+          <p>Use seu pr&oacute;prio dom&iacute;nio para emails de agentes. Verifica&ccedil;&atilde;o e gerenciamento DNS completos.</p>
         </div>
         <div class="feature">
-          <h3>Smart Features</h3>
-          <p>Email threading, labels, search, and more. Everything agents need to manage conversations.</p>
+          <h3>Recursos Inteligentes</h3>
+          <p>Threads de email, etiquetas, busca e mais. Tudo que os agentes precisam para gerenciar conversas.</p>
         </div>
         <div class="feature">
-          <h3>Built for Scale</h3>
-          <p>From 3 free inboxes to unlimited. Powered by battle-tested email infrastructure.</p>
+          <h3>Feito para Escalar</h3>
+          <p>De 3 caixas de entrada gratuitas at&eacute; ilimitadas. Alimentado por infraestrutura de email comprovada.</p>
         </div>
       </div>
 
       <div class="pricing" id="pricing">
-        <h2>Pricing</h2>
+        <h2>Pre&ccedil;os</h2>
         <div class="pricing-grid">
           <div class="plan">
-            <h3>Free</h3>
+            <h3>Gratuito</h3>
             <div class="price">$0</div>
             <ul>
-              <li>3 inboxes</li>
-              <li>3K emails/month</li>
-              <li>100 emails/day</li>
-              <li>3 GB storage</li>
+              <li>3 caixas de entrada</li>
+              <li>3.000 emails/m&ecirc;s</li>
+              <li>100 emails/dia</li>
+              <li>3 GB armazenamento</li>
               <li>2 webhooks</li>
-              <li>REST API + SDK</li>
+              <li>API REST + SDK</li>
             </ul>
-            <button class="btn btn-outline" style="width:100%" onclick="showSection('register')">Get Started</button>
+            <button class="btn btn-outline" style="width:100%" onclick="showSection('register')">Come&ccedil;ar Gratis</button>
           </div>
           <div class="plan">
-            <h3>Starter</h3>
-            <div class="price">$5<span>/mo</span></div>
+            <h3>Inicial</h3>
+            <div class="price">$5<span>/m&ecirc;s</span></div>
             <ul>
-              <li>10 inboxes</li>
-              <li>5K emails/month</li>
-              <li>No daily limit</li>
-              <li>10 GB storage</li>
+              <li>10 caixas de entrada</li>
+              <li>5.000 emails/m&ecirc;s</li>
+              <li>Sem limite di&aacute;rio</li>
+              <li>10 GB armazenamento</li>
               <li>5 webhooks</li>
-              <li>MCP Server</li>
+              <li>Servidor MCP</li>
             </ul>
-            <button class="btn btn-primary" style="width:100%" onclick="showSection('register')">Start Now</button>
+            <button class="btn btn-primary" style="width:100%" onclick="showSection('register')">Come&ccedil;ar Agora</button>
           </div>
           <div class="plan featured">
             <h3>Pro</h3>
-            <div class="price">$29<span>/mo</span></div>
+            <div class="price">$29<span>/m&ecirc;s</span></div>
             <ul>
-              <li>50 inboxes</li>
-              <li>50K emails/month</li>
-              <li>50 GB storage</li>
-              <li>20 custom domains</li>
+              <li>50 caixas de entrada</li>
+              <li>50.000 emails/m&ecirc;s</li>
+              <li>50 GB armazenamento</li>
+              <li>20 dom&iacute;nios personalizados</li>
               <li>20 webhooks</li>
-              <li>Priority support</li>
+              <li>Suporte priorit&aacute;rio</li>
             </ul>
-            <button class="btn btn-primary" style="width:100%" onclick="showSection('register')">Upgrade</button>
+            <button class="btn btn-primary" style="width:100%" onclick="showSection('register')">Fazer Upgrade</button>
           </div>
           <div class="plan">
-            <h3>Business</h3>
-            <div class="price">$99<span>/mo</span></div>
+            <h3>Empresarial</h3>
+            <div class="price">$99<span>/m&ecirc;s</span></div>
             <ul>
-              <li>200 inboxes</li>
-              <li>200K emails/month</li>
-              <li>200 GB storage</li>
-              <li>Unlimited domains</li>
-              <li>Unlimited webhooks</li>
-              <li>Dedicated support</li>
+              <li>200 caixas de entrada</li>
+              <li>200.000 emails/m&ecirc;s</li>
+              <li>200 GB armazenamento</li>
+              <li>Dom&iacute;nios ilimitados</li>
+              <li>Webhooks ilimitados</li>
+              <li>Suporte dedicado</li>
             </ul>
-            <button class="btn btn-outline" style="width:100%" onclick="showSection('register')">Upgrade</button>
+            <button class="btn btn-outline" style="width:100%" onclick="showSection('register')">Fazer Upgrade</button>
           </div>
         </div>
-        <p style="margin-top:24px;color:#666;font-size:14px">Need more? <a href="mailto:enterprise@clawaimail.com">Contact us</a> for Enterprise plans with custom volume pricing.</p>
+        <p style="margin-top:24px;color:#666;font-size:14px">Precisa de mais? <a href="mailto:enterprise@clawaimail.com">Entre em contato</a> para planos Enterprise com pre&ccedil;os por volume personalizados.</p>
       </div>
     </div>
 
-    <!-- Login -->
+    <!-- Entrar -->
     <div class="auth-section" id="login-section">
       <div class="auth-box">
-        <h2>Log In</h2>
+        <h2>Entrar</h2>
         <div class="oauth-buttons" style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
           <a href="/v1/auth/github" class="btn btn-outline" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;text-decoration:none;padding:10px">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="#e0e0e0"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-            Continue with GitHub
+            Continuar com GitHub
           </a>
           <a href="/v1/auth/google" class="btn btn-outline" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;text-decoration:none;padding:10px">
             <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-            Continue with Google
+            Continuar com Google
           </a>
         </div>
-        <div style="text-align:center;color:#555;font-size:13px;margin-bottom:16px">or use email</div>
+        <div style="text-align:center;color:#555;font-size:13px;margin-bottom:16px">ou usar e-mail</div>
         <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="login-email" placeholder="you@example.com">
+          <label>E-mail</label>
+          <input type="email" id="login-email" placeholder="voce@exemplo.com">
         </div>
         <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="login-password" placeholder="Password">
+          <label>Senha</label>
+          <input type="password" id="login-password" placeholder="Senha">
         </div>
         <div class="error-msg" id="login-error"></div>
-        <button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="doLogin()">Log In</button>
+        <button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="doLogin()">Entrar</button>
         <p style="text-align:center;margin-top:16px;font-size:13px;color:#999">
-          Don't have an account? <a href="#" onclick="showSection('register')">Sign up</a>
+          N&atilde;o tem conta? <a href="#" onclick="showSection('register')">Criar Conta</a>
         </p>
       </div>
     </div>
 
-    <!-- Register -->
+    <!-- Criar Conta -->
     <div class="auth-section" id="register-section">
       <div class="auth-box">
-        <h2>Create Account</h2>
+        <h2>Criar Conta</h2>
         <div class="oauth-buttons" style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
           <a href="/v1/auth/github" class="btn btn-outline" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;text-decoration:none;padding:10px">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="#e0e0e0"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-            Sign up with GitHub
+            Registrar com GitHub
           </a>
           <a href="/v1/auth/google" class="btn btn-outline" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;text-decoration:none;padding:10px">
             <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-            Sign up with Google
+            Registrar com Google
           </a>
         </div>
-        <div style="text-align:center;color:#555;font-size:13px;margin-bottom:16px">or use email</div>
+        <div style="text-align:center;color:#555;font-size:13px;margin-bottom:16px">ou usar e-mail</div>
         <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="reg-email" placeholder="you@example.com">
+          <label>E-mail</label>
+          <input type="email" id="reg-email" placeholder="voce@exemplo.com">
         </div>
         <div class="form-group">
-          <label>Password (min 8 characters)</label>
-          <input type="password" id="reg-password" placeholder="Password">
+          <label>Senha (m&iacute;nimo 8 caracteres)</label>
+          <input type="password" id="reg-password" placeholder="Senha">
         </div>
         <div class="error-msg" id="reg-error"></div>
-        <button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="doRegister()">Create Account</button>
+        <button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="doRegister()">Criar Conta</button>
         <p style="text-align:center;margin-top:16px;font-size:13px;color:#999">
-          Already have an account? <a href="#" onclick="showSection('login')">Log in</a>
+          J&aacute; tem conta? <a href="#" onclick="showSection('login')">Entrar</a>
         </p>
       </div>
     </div>
 
-    <!-- Dashboard -->
+    <!-- Painel -->
     <div class="dashboard" id="dashboard-section">
       <div class="dash-header">
-        <h2>Dashboard</h2>
-        <button class="btn btn-outline btn-sm" onclick="doLogout()">Log Out</button>
+        <h2>Painel</h2>
+        <button class="btn btn-outline btn-sm" onclick="doLogout()">Sair</button>
       </div>
 
-      <!-- Upgrade Banner -->
+      <!-- Banner de upgrade -->
       <div id="upgrade-banner" style="display:none;background:linear-gradient(135deg,#1a1a3e,#0f2027);border:1px solid #7c9fff33;border-radius:8px;padding:20px 24px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center">
         <div>
-          <div style="font-size:15px;color:#fff;font-weight:600" id="upgrade-text">Upgrade your plan</div>
-          <div style="font-size:13px;color:#999;margin-top:4px" id="upgrade-desc">Get more inboxes, higher limits, and custom domains.</div>
+          <div style="font-size:15px;color:#fff;font-weight:600" id="upgrade-text">Fa&ccedil;a upgrade do seu plano</div>
+          <div style="font-size:13px;color:#999;margin-top:4px" id="upgrade-desc">Obtenha mais caixas de entrada, limites maiores e dom&iacute;nios personalizados.</div>
         </div>
-        <button class="btn btn-primary" onclick="showUpgradeModal()">View Plans</button>
+        <button class="btn btn-primary" onclick="showUpgradeModal()">Ver Planos</button>
       </div>
 
-      <!-- Quick Start Guide -->
+      <!-- In&iacute;cio r&aacute;pido -->
       <div id="quick-start" style="background:#151515;border:1px solid #222;border-radius:8px;padding:20px 24px;margin-bottom:24px">
-        <h3 style="color:#fff;margin-bottom:12px">Quick Start</h3>
+        <h3 style="color:#fff;margin-bottom:12px">In&iacute;cio R&aacute;pido</h3>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;font-size:13px">
-          <div style="color:#999"><span style="color:#7c9fff;font-weight:700">1.</span> Copy your API Key below</div>
-          <div style="color:#999"><span style="color:#7c9fff;font-weight:700">2.</span> Create an inbox (or bulk import)</div>
-          <div style="color:#999"><span style="color:#7c9fff;font-weight:700">3.</span> Start sending emails via API, SDK, or MCP</div>
+          <div style="color:#999"><span style="color:#7c9fff;font-weight:700">1.</span> Copie sua chave de API abaixo</div>
+          <div style="color:#999"><span style="color:#7c9fff;font-weight:700">2.</span> Crie uma caixa de entrada (ou importa&ccedil;&atilde;o em massa)</div>
+          <div style="color:#999"><span style="color:#7c9fff;font-weight:700">3.</span> Comece a enviar emails via API, SDK ou MCP</div>
         </div>
         <div style="margin-top:12px;font-size:13px">
-          <a href="/docs/" style="color:#7c9fff;margin-right:16px">API Docs</a>
+          <a href="/docs/" style="color:#7c9fff;margin-right:16px">Documenta&ccedil;&atilde;o da API</a>
           <a href="/blog/getting-started-ai-agent-email.html" style="color:#7c9fff">Tutorial</a>
         </div>
       </div>
@@ -328,79 +338,79 @@
       <div class="stats" id="stats"></div>
 
       <div class="section">
-        <h3>Inboxes</h3>
+        <h3>Caixas de Entrada</h3>
         <div class="inline-form">
-          <input type="text" id="new-inbox" placeholder="username (e.g. mybot)">
-          <button class="btn btn-primary btn-sm" onclick="createInbox()">Create</button>
-          <button class="btn btn-outline btn-sm" onclick="toggleBulkImport()">Bulk Import</button>
+          <input type="text" id="new-inbox" placeholder="Nome de usu&aacute;rio (ex: meubot)">
+          <button class="btn btn-primary btn-sm" onclick="createInbox()">Criar</button>
+          <button class="btn btn-outline btn-sm" onclick="toggleBulkImport()">Importa&ccedil;&atilde;o em Massa</button>
         </div>
         <div id="bulk-import" style="display:none;margin-bottom:16px">
-          <textarea id="bulk-usernames" style="width:100%;height:100px;background:#0a0a0a;border:1px solid #333;border-radius:6px;color:#e0e0e0;padding:10px;font-family:monospace;font-size:13px;resize:vertical" placeholder="Enter one username per line, e.g.:&#10;sales-bot&#10;support-agent&#10;newsletter&#10;onboarding"></textarea>
+          <textarea id="bulk-usernames" style="width:100%;height:100px;background:#0a0a0a;border:1px solid #333;border-radius:6px;color:#e0e0e0;padding:10px;font-family:monospace;font-size:13px;resize:vertical" placeholder="Um nome de usu&aacute;rio por linha, ex:&#10;vendas-bot&#10;suporte-agente&#10;newsletter&#10;onboarding"></textarea>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-            <span style="font-size:12px;color:#666" id="bulk-count">0 usernames</span>
-            <button class="btn btn-primary btn-sm" onclick="bulkCreateInboxes()">Create All</button>
+            <span style="font-size:12px;color:#666" id="bulk-count">0 nomes de usu&aacute;rio</span>
+            <button class="btn btn-primary btn-sm" onclick="bulkCreateInboxes()">Criar Todos</button>
           </div>
           <div id="bulk-result" style="font-size:13px;margin-top:8px"></div>
         </div>
         <table>
-          <thead><tr><th>Address</th><th>Created</th><th></th></tr></thead>
+          <thead><tr><th>Endere&ccedil;o</th><th>Criado em</th><th></th></tr></thead>
           <tbody id="inbox-list"></tbody>
         </table>
       </div>
 
       <div class="section">
-        <h3>API Keys</h3>
+        <h3>Chaves de API</h3>
         <div class="inline-form">
-          <input type="text" id="new-key-name" placeholder="Key name (e.g. production)">
-          <button class="btn btn-primary btn-sm" onclick="createKey()">Create</button>
+          <input type="text" id="new-key-name" placeholder="Nome da chave (ex: producao)">
+          <button class="btn btn-primary btn-sm" onclick="createKey()">Criar</button>
         </div>
         <table>
-          <thead><tr><th>Name</th><th>Key</th><th>Created</th><th></th></tr></thead>
+          <thead><tr><th>Nome</th><th>Chave</th><th>Criado em</th><th></th></tr></thead>
           <tbody id="key-list"></tbody>
         </table>
       </div>
     </div>
 
-    <!-- Upgrade Modal -->
+    <!-- Modal de Upgrade -->
     <div id="upgrade-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:100;display:none;align-items:center;justify-content:center">
       <div style="background:#151515;border:1px solid #333;border-radius:12px;padding:32px;max-width:700px;width:90%;max-height:80vh;overflow-y:auto">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
-          <h2 style="color:#fff">Upgrade Your Plan</h2>
+          <h2 style="color:#fff">Fa&ccedil;a Upgrade do Seu Plano</h2>
           <button onclick="closeUpgradeModal()" style="background:none;border:none;color:#999;font-size:24px;cursor:pointer">&times;</button>
         </div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
           <div style="border:1px solid #333;border-radius:8px;padding:20px;text-align:center">
-            <h3 style="color:#e0c050">Starter</h3>
-            <div style="font-size:28px;font-weight:700;color:#fff;margin:12px 0">$5<span style="font-size:14px;color:#999">/mo</span></div>
+            <h3 style="color:#e0c050">Inicial</h3>
+            <div style="font-size:28px;font-weight:700;color:#fff;margin:12px 0">$5<span style="font-size:14px;color:#999">/m&ecirc;s</span></div>
             <ul style="list-style:none;text-align:left;font-size:13px;color:#ccc;margin:16px 0">
-              <li style="padding:4px 0">10 inboxes</li>
-              <li style="padding:4px 0">5K emails/month</li>
-              <li style="padding:4px 0">10 GB storage</li>
+              <li style="padding:4px 0">10 caixas de entrada</li>
+              <li style="padding:4px 0">5.000 emails/m&ecirc;s</li>
+              <li style="padding:4px 0">10 GB armazenamento</li>
               <li style="padding:4px 0">5 webhooks</li>
             </ul>
-            <button class="btn btn-primary" style="width:100%" onclick="doUpgrade('starter')">Upgrade</button>
+            <button class="btn btn-primary" style="width:100%" onclick="doUpgrade('starter')">Fazer Upgrade</button>
           </div>
           <div style="border:1px solid #7c9fff;border-radius:8px;padding:20px;text-align:center">
             <h3 style="color:#4caf50">Pro</h3>
-            <div style="font-size:28px;font-weight:700;color:#fff;margin:12px 0">$29<span style="font-size:14px;color:#999">/mo</span></div>
+            <div style="font-size:28px;font-weight:700;color:#fff;margin:12px 0">$29<span style="font-size:14px;color:#999">/m&ecirc;s</span></div>
             <ul style="list-style:none;text-align:left;font-size:13px;color:#ccc;margin:16px 0">
-              <li style="padding:4px 0">50 inboxes</li>
-              <li style="padding:4px 0">50K emails/month</li>
-              <li style="padding:4px 0">50 GB storage</li>
-              <li style="padding:4px 0">20 custom domains</li>
+              <li style="padding:4px 0">50 caixas de entrada</li>
+              <li style="padding:4px 0">50.000 emails/m&ecirc;s</li>
+              <li style="padding:4px 0">50 GB armazenamento</li>
+              <li style="padding:4px 0">20 dom&iacute;nios personalizados</li>
             </ul>
-            <button class="btn btn-primary" style="width:100%" onclick="doUpgrade('pro')">Upgrade</button>
+            <button class="btn btn-primary" style="width:100%" onclick="doUpgrade('pro')">Fazer Upgrade</button>
           </div>
           <div style="border:1px solid #333;border-radius:8px;padding:20px;text-align:center">
-            <h3 style="color:#7c9fff">Business</h3>
-            <div style="font-size:28px;font-weight:700;color:#fff;margin:12px 0">$99<span style="font-size:14px;color:#999">/mo</span></div>
+            <h3 style="color:#7c9fff">Empresarial</h3>
+            <div style="font-size:28px;font-weight:700;color:#fff;margin:12px 0">$99<span style="font-size:14px;color:#999">/m&ecirc;s</span></div>
             <ul style="list-style:none;text-align:left;font-size:13px;color:#ccc;margin:16px 0">
-              <li style="padding:4px 0">200 inboxes</li>
-              <li style="padding:4px 0">200K emails/month</li>
-              <li style="padding:4px 0">200 GB storage</li>
-              <li style="padding:4px 0">Unlimited domains</li>
+              <li style="padding:4px 0">200 caixas de entrada</li>
+              <li style="padding:4px 0">200.000 emails/m&ecirc;s</li>
+              <li style="padding:4px 0">200 GB armazenamento</li>
+              <li style="padding:4px 0">Dom&iacute;nios ilimitados</li>
             </ul>
-            <button class="btn btn-primary" style="width:100%" onclick="doUpgrade('business')">Upgrade</button>
+            <button class="btn btn-primary" style="width:100%" onclick="doUpgrade('business')">Fazer Upgrade</button>
           </div>
         </div>
       </div>
@@ -412,16 +422,16 @@ const API = window.location.origin;
 let token = localStorage.getItem('clawaimail_token');
 
 const langSwitcher = `<div style="position:relative;display:inline-block" class="lang-menu">
-  <button class="btn btn-outline btn-sm" style="font-size:12px" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">EN &#9662;</button>
+  <button class="btn btn-outline btn-sm" style="font-size:12px" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">Portugu\u00eas &#9662;</button>
   <div style="display:none;position:absolute;right:0;top:100%;background:#151515;border:1px solid #333;border-radius:6px;padding:4px 0;z-index:50;min-width:120px">
     <a href="/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0;text-decoration:none">English</a>
-    <a href="/zh/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0;text-decoration:none">中文</a>
-    <a href="/ja/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0;text-decoration:none">日本語</a>
-    <a href="/ko/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0;text-decoration:none">한국어</a>
-    <a href="/es/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0;text-decoration:none">Español</a>
-    <a href="/fr/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0;text-decoration:none">Français</a>
+    <a href="/zh/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0;text-decoration:none">\u4e2d\u6587</a>
+    <a href="/ja/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0;text-decoration:none">\u65e5\u672c\u8a9e</a>
+    <a href="/ko/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0;text-decoration:none">\ud55c\uad6d\uc5b4</a>
+    <a href="/es/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0;text-decoration:none">Espa\u00f1ol</a>
+    <a href="/fr/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0;text-decoration:none">Fran\u00e7ais</a>
     <a href="/de/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0;text-decoration:none">Deutsch</a>
-    <a href="/pt/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0;text-decoration:none">Português</a>
+    <a href="/pt/" style="display:block;padding:6px 16px;font-size:13px;color:#e0e0e0;text-decoration:none">Portugu\u00eas</a>
   </div>
 </div>`;
 
@@ -433,17 +443,17 @@ function showSection(name) {
 
   if (name === 'dashboard') {
     document.getElementById('nav-links').innerHTML = `
-      <a href="#" onclick="showSection('dashboard')">Dashboard</a>
+      <a href="#" onclick="showSection('dashboard')">Painel</a>
       ${langSwitcher}
-      <button class="btn btn-outline btn-sm" onclick="doLogout()">Log Out</button>
+      <button class="btn btn-outline btn-sm" onclick="doLogout()">Sair</button>
     `;
     loadDashboard();
   } else {
     document.getElementById('nav-links').innerHTML = `
-      <a href="#" onclick="showSection('landing')">Home</a>
+      <a href="#" onclick="showSection('landing')">In\u00edcio</a>
       ${langSwitcher}
-      <button class="btn btn-outline btn-sm" onclick="showSection('login')">Log In</button>
-      <button class="btn btn-primary btn-sm" onclick="showSection('register')">Sign Up</button>
+      <button class="btn btn-outline btn-sm" onclick="showSection('login')">Entrar</button>
+      <button class="btn btn-primary btn-sm" onclick="showSection('register')">Criar Conta</button>
     `;
   }
 }
@@ -494,22 +504,22 @@ async function loadDashboard() {
   const planBadge = { free: 'badge-free', starter: 'badge-starter', pro: 'badge-pro', business: 'badge-business' };
 
   document.getElementById('stats').innerHTML = `
-    <div class="stat"><div class="label">Plan</div><div class="value"><span class="badge ${planBadge[me.plan] || 'badge-free'}">${me.plan}</span></div></div>
-    <div class="stat"><div class="label">Inboxes</div><div class="value">${me.usage.inboxes} / ${me.limits.maxInboxes === -1 ? '&infin;' : me.limits.maxInboxes}</div></div>
-    <div class="stat"><div class="label">Emails/Month</div><div class="value">${me.limits.maxEmailsPerMonth === -1 ? '&infin;' : (me.limits.maxEmailsPerMonth / 1000) + 'K'}</div></div>
-    <div class="stat"><div class="label">Email</div><div class="value" style="font-size:14px">${me.email}</div></div>
+    <div class="stat"><div class="label">Plano</div><div class="value"><span class="badge ${planBadge[me.plan] || 'badge-free'}">${me.plan}</span></div></div>
+    <div class="stat"><div class="label">Caixas de Entrada</div><div class="value">${me.usage.inboxes} / ${me.limits.maxInboxes === -1 ? '&infin;' : me.limits.maxInboxes}</div></div>
+    <div class="stat"><div class="label">Emails/M\u00eas</div><div class="value">${me.limits.maxEmailsPerMonth === -1 ? '&infin;' : (me.limits.maxEmailsPerMonth / 1000) + 'K'}</div></div>
+    <div class="stat"><div class="label">E-mail</div><div class="value" style="font-size:14px">${me.email}</div></div>
   `;
 
   // Upgrade banner
   const banner = document.getElementById('upgrade-banner');
   if (me.plan === 'free') {
     banner.style.display = 'flex';
-    document.getElementById('upgrade-text').textContent = 'You are on the Free plan';
-    document.getElementById('upgrade-desc').textContent = 'Upgrade to get more inboxes, higher email limits, and custom domains.';
+    document.getElementById('upgrade-text').textContent = 'Voc\u00ea est\u00e1 no plano gratuito';
+    document.getElementById('upgrade-desc').textContent = 'Fa\u00e7a upgrade para mais caixas de entrada, limites maiores e dom\u00ednios personalizados.';
   } else if (me.plan === 'starter') {
     banner.style.display = 'flex';
-    document.getElementById('upgrade-text').textContent = 'You are on the Starter plan';
-    document.getElementById('upgrade-desc').textContent = 'Upgrade to Pro for 50 inboxes, 50K emails/month, and custom domains.';
+    document.getElementById('upgrade-text').textContent = 'Voc\u00ea est\u00e1 no plano Inicial';
+    document.getElementById('upgrade-desc').textContent = 'Fa\u00e7a upgrade para o Pro e tenha 50 caixas de entrada, 50K emails/m\u00eas e dom\u00ednios personalizados.';
   } else {
     banner.style.display = 'none';
   }
@@ -524,9 +534,9 @@ async function loadDashboard() {
     <tr>
       <td>${i.address}</td>
       <td>${new Date(i.created_at).toLocaleDateString()}</td>
-      <td><button class="btn btn-danger btn-sm" onclick="deleteInbox(${i.id})">Delete</button></td>
+      <td><button class="btn btn-danger btn-sm" onclick="deleteInbox(${i.id})">Excluir</button></td>
     </tr>
-  `).join('') : '<tr><td colspan="3" class="empty">No inboxes yet</td></tr>';
+  `).join('') : '<tr><td colspan="3" class="empty">Nenhuma caixa de entrada</td></tr>';
 
   // API Keys
   const { data: keys } = await apiFetch('GET', '/v1/api-keys');
@@ -534,11 +544,11 @@ async function loadDashboard() {
   keyList.innerHTML = keys.length ? keys.map(k => `
     <tr>
       <td>${k.name}</td>
-      <td><span class="api-key">${k.key}</span><button class="copy-btn" onclick="copyKey('${k.key}')">Copy</button></td>
+      <td><span class="api-key">${k.key}</span><button class="copy-btn" onclick="copyKey('${k.key}')">Copiar</button></td>
       <td>${new Date(k.created_at).toLocaleDateString()}</td>
-      <td><button class="btn btn-danger btn-sm" onclick="deleteKey(${k.id})">Delete</button></td>
+      <td><button class="btn btn-danger btn-sm" onclick="deleteKey(${k.id})">Excluir</button></td>
     </tr>
-  `).join('') : '<tr><td colspan="4" class="empty">No API keys</td></tr>';
+  `).join('') : '<tr><td colspan="4" class="empty">Nenhuma chave de API</td></tr>';
 }
 
 async function createInbox() {
@@ -551,7 +561,7 @@ async function createInbox() {
 }
 
 async function deleteInbox(id) {
-  if (!confirm('Delete this inbox and all its emails?')) return;
+  if (!confirm('Excluir esta caixa de entrada e todos os emails?')) return;
   await apiFetch('DELETE', '/v1/inboxes/' + id);
   loadDashboard();
 }
@@ -560,7 +570,7 @@ async function createKey() {
   const name = document.getElementById('new-key-name').value.trim() || 'unnamed';
   const { ok, data } = await apiFetch('POST', '/v1/api-keys', { name });
   if (!ok) return alert(data.error);
-  alert('New API Key (save it now!):\\n\\n' + data.key);
+  alert('Nova chave de API (salve agora!):\n\n' + data.key);
   document.getElementById('new-key-name').value = '';
   loadDashboard();
 }
@@ -597,7 +607,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const ta = document.getElementById('bulk-usernames');
   if (ta) ta.addEventListener('input', () => {
     const lines = ta.value.split('\n').filter(l => l.trim());
-    document.getElementById('bulk-count').textContent = lines.length + ' username' + (lines.length !== 1 ? 's' : '');
+    document.getElementById('bulk-count').textContent = lines.length + ' nomes de usu\u00e1rio';
   });
 });
 
@@ -607,7 +617,7 @@ async function bulkCreateInboxes() {
   if (!usernames.length) return;
 
   const resultEl = document.getElementById('bulk-result');
-  resultEl.innerHTML = '<span style="color:#7c9fff">Creating...</span>';
+  resultEl.innerHTML = '<span style="color:#7c9fff">Criando...</span>';
 
   let success = 0, failed = 0, errors = [];
   for (const username of usernames) {
@@ -615,12 +625,12 @@ async function bulkCreateInboxes() {
     if (ok) { success++; } else { failed++; errors.push(`${username}: ${data.error}`); }
   }
 
-  resultEl.innerHTML = `<span style="color:#4caf50">${success} created</span>` +
-    (failed ? ` <span style="color:#ff4444">${failed} failed</span>` : '') +
+  resultEl.innerHTML = `<span style="color:#4caf50">${success} criados</span>` +
+    (failed ? ` <span style="color:#ff4444">${failed} falharam</span>` : '') +
     (errors.length ? `<div style="color:#ff4444;margin-top:4px;font-size:12px">${errors.join('<br>')}</div>` : '');
 
   ta.value = '';
-  document.getElementById('bulk-count').textContent = '0 usernames';
+  document.getElementById('bulk-count').textContent = '0 nomes de usu\u00e1rio';
   loadDashboard();
 }
 
@@ -628,12 +638,12 @@ async function bulkCreateInboxes() {
 
 function copyKey(key) {
   navigator.clipboard.writeText(key);
-  event.target.textContent = 'Copied!';
-  setTimeout(() => event.target.textContent = 'Copy', 1500);
+  event.target.textContent = 'Copiado!';
+  setTimeout(() => event.target.textContent = 'Copiar', 1500);
 }
 
 async function deleteKey(id) {
-  if (!confirm('Delete this API key?')) return;
+  if (!confirm('Excluir esta chave de API?')) return;
   await apiFetch('DELETE', '/v1/api-keys/' + id);
   loadDashboard();
 }
@@ -644,7 +654,7 @@ const oauthToken = urlParams.get('token');
 if (oauthToken) {
   token = oauthToken;
   localStorage.setItem('clawaimail_token', token);
-  window.history.replaceState({}, '', '/');
+  window.history.replaceState({}, '', '/pt/');
   showSection('dashboard');
 } else if (token) {
   showSection('dashboard');

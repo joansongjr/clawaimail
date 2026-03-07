@@ -38,8 +38,12 @@ export async function createCheckoutSession(userId, planId, successUrl, cancelUr
     mode: 'subscription',
     customer_email: user.email,
     line_items: [{ price: plan.stripePriceId, quantity: 1 }],
-    success_url: successUrl || 'https://clawaimail.com/dashboard?upgraded=true',
-    cancel_url: cancelUrl || 'https://clawaimail.com/pricing',
+    payment_method_types: ['card', 'alipay', 'wechat_pay', 'link'],
+    payment_method_options: {
+      wechat_pay: { client: 'web' }
+    },
+    success_url: successUrl || 'https://clawaimail.com/?upgraded=true',
+    cancel_url: cancelUrl || 'https://clawaimail.com/#pricing',
     metadata: { user_id: String(userId), plan_id: planId }
   });
 
