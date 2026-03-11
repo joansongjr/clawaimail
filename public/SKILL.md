@@ -1,7 +1,7 @@
 ---
 name: clawaimail
-version: 0.1.2
-description: Give your AI agent a real email address. Send, receive, and manage emails via API.
+version: 0.2.0
+description: Email infrastructure for AI agents — create inboxes, send and receive real emails, search messages, manage threads. Alternative to AgentMail with MCP server, REST API, webhooks, and WebSocket streaming.
 author: ClawAIMail
 author_url: https://clawaimail.com
 repository: https://github.com/joansongjr/clawaimail
@@ -13,8 +13,13 @@ tags:
   - receive-email
   - ai-agent
   - mcp-server
+  - mcp
   - api
   - automation
+  - email-agent
+  - mailbox
+  - webhook
+  - smtp
 ---
 
 # ClawAIMail - Email for AI Agents
@@ -38,43 +43,14 @@ Give your AI agent its own email address. Create inboxes, send and receive real 
 CLAWAIMAIL_API_KEY=pb_your_api_key
 ```
 
-## OpenClaw Configuration
-
-⚠️ **Important**: Do NOT add `mcpServers` to `openclaw.json` — that field is not supported and will crash the Gateway.
-
-Use **mcporter** (OpenClaw's MCP management tool) to configure:
-
-```bash
-# Add ClawAIMail as an MCP server
-mcporter config add clawaimail "npx -y clawaimail-mcp" --env CLAWAIMAIL_API_KEY="pb_your_api_key"
-
-# Test it works
-mcporter call clawaimail.list_inboxes
-
-# Check status
-mcporter status
-```
-
-mcporter manages its own config at `~/.openclaw/config/mcporter.json`, separate from the OpenClaw Gateway config.
-
-### Troubleshooting
-
-| Problem | Cause | Fix |
-|---------|-------|-----|
-| Gateway crashes on startup | `mcpServers` added to `openclaw.json` | Remove it from `openclaw.json`, use `mcporter` instead |
-| "CLAWAIMAIL_API_KEY not set" warning | Missing env var | Add `--env CLAWAIMAIL_API_KEY="..."` to mcporter config |
-| API calls return errors | Invalid API key or service unreachable | Check key at https://clawaimail.com/dashboard |
-
-## MCP Server Configuration (Claude Desktop / Cursor)
-
-For non-OpenClaw MCP clients:
+## MCP Server Configuration
 
 ```json
 {
   "mcpServers": {
     "clawaimail": {
       "command": "npx",
-      "args": ["-y", "clawaimail-mcp"],
+      "args": ["clawaimail-mcp"],
       "env": {
         "CLAWAIMAIL_API_KEY": "pb_your_api_key"
       }
@@ -135,23 +111,10 @@ Agent: [calls search_emails with query "invoice"]
 - **Pro** ($29/mo): 50 inboxes, 50K emails/month, custom domains
 - **Business** ($99/mo): 200 inboxes, 200K emails/month
 
-## Changelog
-
-### 0.1.2
-- Fix: Added error handling to all API calls (no more crashes on missing API key or network errors)
-- Fix: Accept both number and string IDs for inbox_id/message_id
-- Added startup warning when CLAWAIMAIL_API_KEY is not set
-- Added global exception handlers to prevent process crashes
-
-### 0.1.0
-- Initial release
-
 ## Links
 
 - Website: https://clawaimail.com
 - API Docs: https://clawaimail.com/docs/
 - GitHub: https://github.com/joansongjr/clawaimail
-- npm: https://www.npmjs.com/package/clawaimail-mcp
-- ClawHub: https://clawhub.com/skills/clawaimail
 - Node.js SDK: `npm install clawaimail`
 - Python SDK: `pip install clawaimail`

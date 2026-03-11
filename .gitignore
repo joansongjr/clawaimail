@@ -3,3 +3,8 @@ data/
 .env
 *.db
 .DS_Store
+*.tgz
+.mcpregistry_*
+.npmrc
+*.egg-info/
+dist/

@@ -184,7 +184,7 @@ export function getApiKeys(userId) {
   const rows = [];
   while (stmt.step()) {
     const row = stmt.getAsObject();
-    rows.push({ ...row, key: row.key.substring(0, 10) + '...' });
+    rows.push(row);
   }
   stmt.free();
   return rows;

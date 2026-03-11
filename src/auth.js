@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { getUserByApiKey, getUserByEmail, createUser, createApiKey } from './db.js';
+import { getUserByApiKey, getUserByEmail, createUser, createApiKey, getApiKeys } from './db.js';
 
 // 密码哈希
 export function hashPassword(password) {
@@ -80,11 +80,13 @@ export function handleLogin(req, res) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    const apiKey = createApiKey(user.id, `login-${Date.now()}`);
+    // Reuse existing key if available, otherwise create one
+    const existingKeys = getApiKeys(user.id);
+    const apiKey = existingKeys.length > 0 ? existingKeys[0].key : createApiKey(user.id, 'default').key;
 
     res.json({
       user: { id: user.id, email: user.email, plan: user.plan },
-      api_key: apiKey.key
+      api_key: apiKey
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -99,8 +101,10 @@ function findOrCreateOAuthUser(email) {
     const userId = createUser({ email, passwordHash: '' });
     user = { id: userId, email };
   }
-  const apiKey = createApiKey(user.id, `oauth-${Date.now()}`);
-  return { user, apiKey: apiKey.key };
+  // Reuse existing key if available
+  const existingKeys = getApiKeys(user.id);
+  const apiKey = existingKeys.length > 0 ? existingKeys[0].key : createApiKey(user.id, 'default').key;
+  return { user, apiKey };
 }
 
 // === GitHub OAuth ===
