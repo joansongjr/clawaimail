@@ -1,6 +1,6 @@
 {
   "name": "clawaimail-mcp",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "ClawAIMail MCP Server - Email tools for AI agents (Claude, Cursor, OpenClaw)",
   "main": "index.js",
   "mcpName": "io.github.joansongjr/clawaimail",

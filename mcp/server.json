@@ -6,12 +6,12 @@
     "url": "https://github.com/joansongjr/clawaimail",
     "source": "github"
   },
-  "version": "0.1.1",
+  "version": "0.2.1",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "clawaimail-mcp",
-      "version": "0.1.1",
+      "version": "0.2.1",
       "runtimeHint": "npx",
       "transport": {
         "type": "stdio"

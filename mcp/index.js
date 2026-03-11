@@ -12,12 +12,14 @@ if (!API_KEY) {
   console.error('[clawaimail] WARNING: CLAWAIMAIL_API_KEY not set. All API calls will fail.');
 }
 
-// Prevent process crashes from unhandled errors
+// Log unhandled errors and exit cleanly
 process.on('uncaughtException', (err) => {
   console.error('[clawaimail] Uncaught exception:', err.message);
+  process.exit(1);
 });
 process.on('unhandledRejection', (err) => {
   console.error('[clawaimail] Unhandled rejection:', err?.message || err);
+  process.exit(1);
 });
 
 // Flexible ID schema: accepts number or numeric string
@@ -77,13 +79,14 @@ async function getDefaultInbox() {
     return _defaultInbox;
   }
 
-  // No inboxes exist — auto-create one with a random name
+  // No inboxes exist — auto-create one so the user can start immediately
   const randomName = `agent-${randomBytes(4).toString('hex')}`;
+  console.error(`[clawaimail] No inboxes found. Creating default inbox: ${randomName}@clawaimail.com`);
   const created = await api('POST', '/v1/inboxes', { username: randomName });
   if (created.error) return { error: `Failed to auto-create inbox: ${created.error}` };
 
   _defaultInbox = created.inbox || created;
-  console.error(`[clawaimail] Auto-created inbox: ${randomName}@clawaimail.com`);
+  console.error(`[clawaimail] Default inbox ready: ${_defaultInbox.address || randomName + '@clawaimail.com'}`);
   return _defaultInbox;
 }
 
@@ -93,7 +96,7 @@ function inboxId(inbox) {
 
 const server = new McpServer({
   name: 'clawaimail',
-  version: '0.2.0'
+  version: '0.2.1'
 });
 
 // === Tools ===
