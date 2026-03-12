@@ -10,6 +10,10 @@
 
 ClawAIMail gives AI agents their own email addresses and full programmatic control over sending, receiving, and managing email. Built for developers who need reliable email primitives in agentic workflows.
 
+<a href="https://glama.ai/mcp/servers/joansongjr/clawaimail">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/joansongjr/clawaimail/badge" alt="ClawAIMail MCP server" />
+</a>
+
 ## Features
 
 - **REST API** -- Send, receive, search, and manage emails with a simple JSON API.
