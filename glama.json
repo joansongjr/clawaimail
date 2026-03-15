@@ -1,0 +1,12 @@
+{
+  "$schema": "https://glama.ai/schemas/glama.json",
+  "name": "clawaimail",
+  "display_name": "ClawAIMail",
+  "description": "Email infrastructure for AI agents — create inboxes, send/receive email, search messages, and manage threads via MCP tools.",
+  "categories": ["communication", "autonomous-agents", "app-automation"],
+  "license": "MIT",
+  "repository": "https://github.com/joansongjr/clawaimail",
+  "homepage": "https://clawaimail.com",
+  "authors": ["joansongjr"],
+  "tags": ["email", "mcp", "ai-agent", "api", "smtp", "inbox"]
+}
