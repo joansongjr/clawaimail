@@ -191,3 +191,4 @@ Self-hosted deployments are free and unlimited. See [clawaimail.com/pricing](htt
 ## License
 
 MIT -- see [LICENSE](./LICENSE) for details.
+
