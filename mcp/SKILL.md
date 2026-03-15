@@ -1,5 +1,5 @@
 ---
-name: Email for AI Agents
+name: ClawAIMail - Email for AI Agents
 version: 0.2.3
 description: Give your AI agent a real email address. Send, receive, and manage emails via API.
 author: ClawAIMail
