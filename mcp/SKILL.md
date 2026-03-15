@@ -1,11 +1,20 @@
 ---
 name: clawaimail
-version: 0.2.1
+version: 0.2.2
 description: Give your AI agent a real email address. Send, receive, and manage emails via API.
 author: ClawAIMail
 author_url: https://clawaimail.com
 repository: https://github.com/joansongjr/clawaimail
 license: MIT
+install:
+  command: npx
+  args:
+    - "-y"
+    - clawaimail-mcp
+env:
+  CLAWAIMAIL_API_KEY:
+    description: API key from clawaimail.com
+    required: true
 tags:
   - email
   - inbox
