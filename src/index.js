@@ -18,6 +18,9 @@ import {
 import { sendEmail } from './mailer.js';
 import { getPlans, createCheckoutSession, handleStripeWebhook, upgradePlan } from './billing.js';
 import path from 'path';
+import multer from 'multer';
+
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024, files: 5 } });
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -26,7 +29,7 @@ const PORT = process.env.PORT || 3000;
 const DOMAIN = process.env.MAIL_DOMAIN || 'clawaimail.com';
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '15mb' }));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // === 公开接口 ===
@@ -186,6 +189,42 @@ app.get('/v1/inboxes/:inboxId/messages/:id', (req, res) => {
 
 app.post('/v1/messages/send', async (req, res) => {
   try {
+    const { inbox_id, to, subject, text, html, thread_id, attachments } = req.body;
+    if (!inbox_id || !to || !subject) {
+      return res.status(400).json({ error: 'inbox_id, to, and subject are required' });
+    }
+
+    const inbox = getInboxById(inbox_id, req.user.id);
+    if (!inbox) return res.status(404).json({ error: 'Inbox not found' });
+
+    const limits = getPlanLimits(req.user.plan);
+    const todaySent = countTodaySent(req.user.id);
+    if (limits.maxSendPerDay > 0 && todaySent >= limits.maxSendPerDay) {
+      return res.status(429).json({ error: `Daily send limit reached (${limits.maxSendPerDay}). Upgrade for more.` });
+    }
+
+    const result = await sendEmail({ from: inbox.address, to, subject, text, html, attachments });
+
+    const emailId = insertEmail({
+      inboxId: inbox.id,
+      messageId: result.messageId,
+      direction: 'outbound',
+      from: inbox.address,
+      to, subject, text, html,
+      attachments: attachments?.map(a => ({ filename: a.filename, content_type: a.content_type, size: a.content ? Buffer.from(a.content, 'base64').length : 0 })),
+      threadId: thread_id
+    });
+
+    res.json({ id: emailId, ...result });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// === 发邮件（multipart/form-data 附件上传）===
+
+app.post('/v1/messages/send-with-files', authenticate, upload.array('files', 5), async (req, res) => {
+  try {
     const { inbox_id, to, subject, text, html, thread_id } = req.body;
     if (!inbox_id || !to || !subject) {
       return res.status(400).json({ error: 'inbox_id, to, and subject are required' });
@@ -200,7 +239,13 @@ app.post('/v1/messages/send', async (req, res) => {
       return res.status(429).json({ error: `Daily send limit reached (${limits.maxSendPerDay}). Upgrade for more.` });
     }
 
-    const result = await sendEmail({ from: inbox.address, to, subject, text, html });
+    const attachments = req.files?.map(f => ({
+      filename: f.originalname,
+      content: f.buffer.toString('base64'),
+      content_type: f.mimetype
+    }));
+
+    const result = await sendEmail({ from: inbox.address, to, subject, text, html, attachments });
 
     const emailId = insertEmail({
       inboxId: inbox.id,
@@ -208,6 +253,7 @@ app.post('/v1/messages/send', async (req, res) => {
       direction: 'outbound',
       from: inbox.address,
       to, subject, text, html,
+      attachments: attachments?.map(a => ({ filename: a.filename, content_type: a.content_type, size: Buffer.from(a.content, 'base64').length })),
       threadId: thread_id
     });
 

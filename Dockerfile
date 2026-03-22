@@ -6,9 +6,10 @@ COPY package.json package-lock.json ./
 RUN npm ci --production
 
 COPY src/ ./src/
+COPY public/ ./public/
 
 RUN mkdir -p data
 
 EXPOSE 3000 2525
 
-CMD ["node", "src/index.js"]
+CMD ["node", "src/start.js"]

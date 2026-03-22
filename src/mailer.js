@@ -44,15 +44,42 @@ function createTransporter() {
 
 const transporter = createTransporter();
 
-export async function sendEmail({ to, subject, text, html, from }) {
+const MAX_ATTACHMENT_SIZE = parseInt(process.env.MAX_ATTACHMENT_SIZE || '5242880'); // 5MB default
+const MAX_TOTAL_ATTACHMENTS_SIZE = parseInt(process.env.MAX_TOTAL_ATTACHMENTS_SIZE || '10485760'); // 10MB total
+
+export async function sendEmail({ to, subject, text, html, from, attachments }) {
+  // Validate attachments if provided
+  let mailAttachments;
+  if (attachments && Array.isArray(attachments) && attachments.length > 0) {
+    let totalSize = 0;
+    mailAttachments = attachments.map((att, i) => {
+      if (!att.filename) throw new Error(`Attachment ${i} missing filename`);
+      if (!att.content) throw new Error(`Attachment ${i} missing content (base64)`);
+      const buf = Buffer.from(att.content, 'base64');
+      if (buf.length > MAX_ATTACHMENT_SIZE) {
+        throw new Error(`Attachment "${att.filename}" exceeds ${MAX_ATTACHMENT_SIZE / 1024 / 1024}MB limit`);
+      }
+      totalSize += buf.length;
+      if (totalSize > MAX_TOTAL_ATTACHMENTS_SIZE) {
+        throw new Error(`Total attachments exceed ${MAX_TOTAL_ATTACHMENTS_SIZE / 1024 / 1024}MB limit`);
+      }
+      return {
+        filename: att.filename,
+        content: buf,
+        contentType: att.content_type || 'application/octet-stream'
+      };
+    });
+  }
+
   const result = await transporter.sendMail({
     from: from || process.env.SERVER_EMAIL || `noreply@${process.env.MAIL_DOMAIN || 'clawaimail.com'}`,
     to,
     subject,
     text,
-    html
+    html,
+    attachments: mailAttachments
   });
-  console.log(`[Mailer] Sent to ${to}: "${subject}" via ${PROVIDER}`);
+  console.log(`[Mailer] Sent to ${to}: "${subject}" via ${PROVIDER}${mailAttachments ? ` (${mailAttachments.length} attachments)` : ''}`);
   return {
     messageId: result.messageId,
     accepted: result.accepted,

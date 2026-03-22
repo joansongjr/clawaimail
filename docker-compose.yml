@@ -1,17 +1,8 @@
 services:
-  api:
+  app:
     build: .
     ports:
       - "3000:3000"
-    env_file: .env
-    volumes:
-      - ./data:/app/data
-    restart: unless-stopped
-
-  smtp:
-    build: .
-    command: node src/smtp-server.js
-    ports:
       - "25:2525"
     env_file: .env
     volumes:

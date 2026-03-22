@@ -377,6 +377,47 @@
           <tbody id="key-list"></tbody>
         </table>
       </div>
+
+      <!-- Custom Domains -->
+      <div class="section" id="domains-section" style="display:none">
+        <h3>Custom Domains</h3>
+        <div id="domains-locked" style="display:none;padding:20px;text-align:center;color:rgba(255,255,255,0.4);font-size:14px">
+          Custom domains are available on Pro and Business plans.
+          <button class="btn btn-primary btn-sm" style="margin-left:12px" onclick="showUpgradeModal()">Upgrade</button>
+        </div>
+        <div id="domains-unlocked" style="display:none">
+          <div class="inline-form">
+            <input type="text" id="new-domain" placeholder="yourdomain.com">
+            <button class="btn btn-primary btn-sm" onclick="addDomain()">Add Domain</button>
+          </div>
+          <div id="domain-verify-info" style="display:none;background:rgba(160,184,255,0.08);border:1px solid rgba(160,184,255,0.15);border-radius:8px;padding:16px;margin-bottom:16px;font-size:13px">
+            <div style="color:#a0b8ff;font-weight:600;margin-bottom:8px">DNS Verification Required</div>
+            <div id="domain-verify-details" style="color:#ccc"></div>
+          </div>
+          <table>
+            <thead><tr><th>Domain</th><th>Status</th><th></th></tr></thead>
+            <tbody id="domain-list"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Webhooks -->
+      <div class="section" id="webhooks-section">
+        <h3>Webhooks</h3>
+        <div class="inline-form">
+          <input type="text" id="new-webhook-url" placeholder="https://your-server.com/webhook">
+          <select id="new-webhook-events" style="padding:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#e0e0e0;font-size:13px">
+            <option value="email.received">email.received</option>
+            <option value="email.sent">email.sent</option>
+            <option value="email.bounced">email.bounced</option>
+          </select>
+          <button class="btn btn-primary btn-sm" onclick="addWebhook()">Add</button>
+        </div>
+        <table>
+          <thead><tr><th>URL</th><th>Events</th><th></th></tr></thead>
+          <tbody id="webhook-list"></tbody>
+        </table>
+      </div>
     </div>
 
     <!-- Upgrade Modal -->
@@ -509,11 +550,12 @@ async function loadDashboard() {
   const { data: me } = await apiFetch('GET', '/v1/me');
   const planBadge = { free: 'badge-free', starter: 'badge-starter', pro: 'badge-pro', business: 'badge-business' };
 
+  const fmtLimit = (v, unit) => v === -1 ? '&infin;' : unit === 'K' ? (v/1000)+unit : unit === 'GB' ? (v/1024).toFixed(0)+' GB' : v;
   document.getElementById('stats').innerHTML = `
     <div class="stat"><div class="label">Plan</div><div class="value"><span class="badge ${planBadge[me.plan] || 'badge-free'}">${me.plan}</span></div></div>
-    <div class="stat"><div class="label">Inboxes</div><div class="value">${me.usage.inboxes} / ${me.limits.maxInboxes === -1 ? '&infin;' : me.limits.maxInboxes}</div></div>
-    <div class="stat"><div class="label">Emails/Month</div><div class="value">${me.limits.maxEmailsPerMonth === -1 ? '&infin;' : (me.limits.maxEmailsPerMonth / 1000) + 'K'}</div></div>
-    <div class="stat"><div class="label">Email</div><div class="value" style="font-size:14px">${me.email}</div></div>
+    <div class="stat"><div class="label">Inboxes</div><div class="value">${me.usage.inboxes} / ${fmtLimit(me.limits.maxInboxes)}</div></div>
+    <div class="stat"><div class="label">Emails/Month</div><div class="value">${fmtLimit(me.limits.maxEmailsPerMonth, 'K')}</div></div>
+    <div class="stat"><div class="label">Sent Today</div><div class="value">${me.usage.sent_today} / ${fmtLimit(me.limits.maxSendPerDay)}</div></div>
   `;
 
   // Upgrade banner
@@ -555,6 +597,39 @@ async function loadDashboard() {
       <td><button class="btn btn-danger btn-sm" onclick="deleteKey(${k.id})">Delete</button></td>
     </tr>
   `).join('') : '<tr><td colspan="4" class="empty">No API keys</td></tr>';
+
+  // Custom Domains
+  const domSec = document.getElementById('domains-section');
+  domSec.style.display = 'block';
+  if (me.limits.maxDomains === 0) {
+    document.getElementById('domains-locked').style.display = 'block';
+    document.getElementById('domains-unlocked').style.display = 'none';
+  } else {
+    document.getElementById('domains-locked').style.display = 'none';
+    document.getElementById('domains-unlocked').style.display = 'block';
+    const { data: domains } = await apiFetch('GET', '/v1/domains');
+    const domList = document.getElementById('domain-list');
+    domList.innerHTML = (domains && domains.length) ? domains.map(d => `
+      <tr>
+        <td>${d.domain}</td>
+        <td><span class="badge ${d.verified ? 'badge-pro' : 'badge-free'}">${d.verified ? 'Verified' : 'Pending'}</span>
+          ${!d.verified ? `<button class="btn btn-outline btn-sm" style="margin-left:8px" onclick="verifyDomain(${d.id})">Verify</button>` : ''}
+        </td>
+        <td><button class="btn btn-danger btn-sm" onclick="deleteDomain(${d.id})">Delete</button></td>
+      </tr>
+    `).join('') : '<tr><td colspan="3" class="empty">No custom domains</td></tr>';
+  }
+
+  // Webhooks
+  const { data: webhooks } = await apiFetch('GET', '/v1/webhooks');
+  const whList = document.getElementById('webhook-list');
+  whList.innerHTML = (webhooks && webhooks.length) ? webhooks.map(w => `
+    <tr>
+      <td style="font-size:13px;word-break:break-all">${w.url}</td>
+      <td><span class="badge badge-free">${w.events || 'all'}</span></td>
+      <td><button class="btn btn-danger btn-sm" onclick="deleteWebhook(${w.id})">Delete</button></td>
+    </tr>
+  `).join('') : '<tr><td colspan="3" class="empty">No webhooks configured</td></tr>';
 }
 
 async function createInbox() {
@@ -578,6 +653,57 @@ async function createKey() {
   if (!ok) return alert(data.error);
   alert('New API Key (save it now!):\\n\\n' + data.key);
   document.getElementById('new-key-name').value = '';
+  loadDashboard();
+}
+
+// === Domains ===
+
+async function addDomain() {
+  const domain = document.getElementById('new-domain').value.trim();
+  if (!domain) return;
+  const { ok, data } = await apiFetch('POST', '/v1/domains', { domain });
+  if (!ok) return alert(data.error);
+  document.getElementById('new-domain').value = '';
+  // Show verification instructions
+  const info = document.getElementById('domain-verify-info');
+  info.style.display = 'block';
+  document.getElementById('domain-verify-details').innerHTML = `
+    Add these DNS records to <strong>${domain}</strong>:<br><br>
+    <strong>MX Record:</strong> mail.clawaimail.com (priority 10)<br>
+    <strong>TXT Record:</strong> ${data.verification_token || 'v=spf1 include:clawaimail.com ~all'}<br><br>
+    After adding DNS records, click <strong>Verify</strong> on the domain below.
+  `;
+  loadDashboard();
+}
+
+async function verifyDomain(id) {
+  const { ok, data } = await apiFetch('POST', '/v1/domains/' + id + '/verify');
+  if (!ok) return alert(data.error || 'Verification failed. Make sure DNS records are set up correctly.');
+  alert('Domain verified successfully!');
+  loadDashboard();
+}
+
+async function deleteDomain(id) {
+  if (!confirm('Delete this custom domain?')) return;
+  await apiFetch('DELETE', '/v1/domains/' + id);
+  loadDashboard();
+}
+
+// === Webhooks ===
+
+async function addWebhook() {
+  const url = document.getElementById('new-webhook-url').value.trim();
+  const events = document.getElementById('new-webhook-events').value;
+  if (!url) return;
+  const { ok, data } = await apiFetch('POST', '/v1/webhooks', { url, events });
+  if (!ok) return alert(data.error);
+  document.getElementById('new-webhook-url').value = '';
+  loadDashboard();
+}
+
+async function deleteWebhook(id) {
+  if (!confirm('Delete this webhook?')) return;
+  await apiFetch('DELETE', '/v1/webhooks/' + id);
   loadDashboard();
 }
 
